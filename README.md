@@ -1,5 +1,5 @@
-Project name tbd
-================
+Heroic Aerial Defense
+=====================
 
 ### Table of contents
 * [General](#general)
@@ -7,10 +7,10 @@ Project name tbd
 * [License](#license)
 
 ### General
-[Add some info about the game here.]
+Heroic Aerial Defense is a side-scrolling shmup. It's visually very simple, as the resolution is 64x64. This is an entry to the #LOWREZJAM 2016 game jam.
 
 ### Credits
-* "[Minimal Pixels](http://fontstruct.com/fontstructions/show/1264958/)" by "[josriley](http://fontstruct.com/fontstructors/708995/)" (CC-BY-SA)
+* "[Minimal Pixels](http://fontstruct.com/fontstructions/show/1264958/)" font by "[josriley](http://fontstruct.com/fontstructors/708995/)" (CC-BY-SA)
 
 ### License
 This game is licensed under CC-BY-SA.
