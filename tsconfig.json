@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "./build"
+  },
+  "filesGlob": [
+    "./**/*.ts"
+  ],
+  "files": [
+    "./lib/tween.d.ts",
+    "./src/game_state.ts",
+    "./src/main_menu_state.ts",
+    "./src/main.ts",
+    "./src/resource_loader.ts",
+    "./src/state.ts",
+    "./src/time.ts",
+    "./src/util.ts"
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  }
+}

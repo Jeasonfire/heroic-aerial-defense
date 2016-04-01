@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Shooty Ludus</title>
+        <style>
+            * {
+                image-rendering: -moz-crisp-edges;
+                image-rendering: -webkit-crisp-edges;
+                image-rendering: pixelated;
+                image-rendering: crisp-edges;
+            }
+            html, body {
+                margin: 0;
+                padding: 0;
+                background-color: #222222;
+                overflow: hidden;
+            }
+            canvas {
+                display: block;
+                margin: auto;
+                min-width: 640px;
+                min-height: 640px;
+            }
+            @font-face {
+                font-family: pixel;
+                src: url("./res/Minimal Pixels.ttf");
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="container"></canvas>
+        <script src="./lib/tween.js"></script>
+        <script src="./build/util.js"></script>
+        <script src="./build/time.js"></script>
+        <script src="./build/resource_loader.js"></script>
+        <script src="./build/state.js"></script>
+        <script src="./build/main_menu_state.js"></script>
+        <script src="./build/game_state.js"></script>
+        <script src="./build/main.js"></script>
+    </body>
+</html>
