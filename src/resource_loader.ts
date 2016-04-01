@@ -1,8 +1,8 @@
 class ResourceLoader {
     public loaded = 0;
 
-    private images = [];
     private image_map = {};
+    private total_images_amount = 0;
     private loaded_images_amount = 0;
     private loading_graphic_speed = 1;
 
@@ -19,13 +19,13 @@ class ResourceLoader {
     }
 
     public load_image(url: [string, string]): number {
-        let id = this.images.length;
+        let id = this.total_images_amount;
         let image = new Image();
         image.src = url[1];
         image.onload = () => {
             this.loaded_images_amount++;
         };
-        this.images.push(image);
+        this.total_images_amount++;
         this.image_map[url[0]] = image;
         return id;
     }
@@ -35,7 +35,7 @@ class ResourceLoader {
     }
 
     public images_loaded(): boolean {
-        return this.loaded_images_amount === this.images.length;
+        return this.loaded_images_amount === this.total_images_amount;
     }
 
     public audio_loaded(): boolean {
@@ -43,7 +43,7 @@ class ResourceLoader {
     }
 
     public update_loading(delta: number) {
-        if (this.loaded < this.loaded_images_amount / this.images.length) {
+        if (this.loaded < this.loaded_images_amount / this.total_images_amount) {
             this.loaded += delta * this.loading_graphic_speed;
         }
     }
