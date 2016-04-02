@@ -16,8 +16,8 @@ class GameState implements State {
 
     public render(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
         this.scroll -= time.delta * this.level.scrolling_speed * this.parallax_multiplier;
-        ctx.drawImage(loader.get_image("bg"), Math.floor(this.scroll) % 64, 0);
-        ctx.drawImage(loader.get_image("bg"), 64 + Math.floor(this.scroll) % 64, 0);
+        draw_image(ctx, loader.get_image("bg"), Math.floor(this.scroll) % 128 + 64, 32);
+        draw_image(ctx, loader.get_image("bg"), Math.floor(this.scroll) % 128 + 192, 32);
         ctx.save();
         ctx.translate(Math.floor(this.scroll / this.parallax_multiplier), 0);
         this.level.render(time, ctx, loader);

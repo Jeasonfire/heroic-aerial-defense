@@ -1,10 +1,15 @@
 class MainMenuState implements State {
+    globalScale: {offset: number};
     buttons: [{name: string, hover: boolean, activation: number}, () => any][];
 
     public initialize() {
+        this.globalScale = {offset: 0};
         this.buttons = [
             [{name: "Play", hover: false, activation: 0}, () => {
-                change_state(new GameState());
+                new TWEEN.Tween(this.globalScale)
+                        .to({offset: -1}, 500)
+                        .onComplete(() => { change_state(new GameState()); })
+                        .start();
             }],
             [{name: "Options", hover: false, activation: 0}, () => {
                 alert("Options not implemented yet.");
@@ -13,34 +18,38 @@ class MainMenuState implements State {
     }
 
     public render(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+        ctx.save();
         ctx.drawImage(loader.get_image("bg"), 0, 0);
-        draw_text(ctx, "HeAeDe", 5, 5, 2);
-        draw_text(ctx, "Heroic", 10, 18, 1);
-        draw_text(ctx, "Aerial", 15, 24, 1);
-        draw_text(ctx, "Defense", 20, 30, 1);
+        ctx.translate(this.globalScale.offset * 64, 1);
+
+        draw_text(ctx, "HeAeDe", 32, 5, 2);
+        draw_text(ctx, "Heroic", 20, 18, 1);
+        draw_text(ctx, "Aerial", 28, 24, 1);
+        draw_text(ctx, "Defense", 41, 30, 1);
         for (let i = 0; i < this.buttons.length; i++) {
-            let hovering = mouse_over(9 + (i > 0 ? ctx.measureText(this.buttons[i - 1][0].name + "    ").width : 0) - 2, 52,
-                    ctx.measureText(this.buttons[i][0].name).width + 2, 9);
+            let hovering = mouse_over(32, 46 + 10 * i,
+                    text_width(ctx, this.buttons[i][0].name) + 2, 9);
             if (hovering !== this.buttons[i][0].hover) {
                 if (hovering) {
                     new TWEEN.Tween(this.buttons[i][0])
-                            .to({ activation: 1 }, 64)
+                            .to({ activation: 1 }, 100)
                             .start();
                     this.buttons[i][0].hover = true;
                 } else {
                     new TWEEN.Tween(this.buttons[i][0])
-                            .to({ activation: 0 }, 32)
+                            .to({ activation: 0 }, 200)
                             .start();
                     this.buttons[i][0].hover = false;
                 }
             }
-            draw_text(ctx, this.buttons[i][0].name, 9 + (i > 0 ? ctx.measureText(this.buttons[i - 1][0].name + "    ").width : 0), 54);
-            ctx.fillRect(9 + (i > 0 ? ctx.measureText(this.buttons[i - 1][0].name + "    ").width : 0), 62,
-                        Math.floor((ctx.measureText(this.buttons[i][0].name).width - 1) * this.buttons[i][0].activation), 1);
+            draw_text(ctx, this.buttons[i][0].name, 32, 46 + 10 * i);
+            draw_rect(ctx, 32, 51 + 10 * i, text_width(ctx, this.buttons[i][0].name) * this.buttons[i][0].activation, 1);
             if (hovering && mouse_down) {
                 this.buttons[i][1]();
             }
         }
+
+        ctx.restore();
     }
 
     public destroy() {

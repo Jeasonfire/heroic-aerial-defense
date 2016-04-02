@@ -6,7 +6,7 @@ class Player {
 
     private shoot_cooldown_time: number;
 
-    public constructor(x: number = 4, y: number = 28, shooting_rate: number = 10, speed: number = 24) {
+    public constructor(x: number = 8, y: number = 28, shooting_rate: number = 10, speed: number = 24) {
         this.x = x;
         this.y = y;
         this.shooting_rate = shooting_rate;
@@ -27,7 +27,7 @@ class Player {
             return null;
         } else {
             this.shoot_cooldown_time = time.total_ms + 1000 / this.shooting_rate;
-            return new Projectile(this.x + 7, this.y + 4, 1, ProjectileType.BASIC);
+            return new Projectile(this.x + 4, this.y + 1, 1, ProjectileType.BASIC);
         }
     }
 }

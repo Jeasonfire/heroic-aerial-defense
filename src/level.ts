@@ -13,9 +13,11 @@ class Level {
     }
 
     public render(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
-        let y_movement = key[KEY_UP] ? -1 : key[KEY_DOWN] ? 1 : 0;
+        let y_movement = 0;
+        if (key[KEY_UP]) y_movement--;
+        if (key[KEY_DOWN]) y_movement++;
         this.player.move(time, 1, y_movement);
-        ctx.drawImage(loader.get_image("ship_player"), Math.floor(this.player.x), Math.floor(this.player.y));
+        draw_image(ctx, loader.get_image("ship_player"), this.player.x, this.player.y);
 
         if (key[KEY_SHOOT]) {
             let projectile = this.player.shoot(time);
@@ -29,7 +31,7 @@ class Level {
                 this.enemies.splice(i, 1);
             } else {
                 this.enemies[i].update_func(this.enemies[i], time);
-                ctx.drawImage(loader.get_image(this.enemies[i].graphic), Math.floor(this.enemies[i].x), Math.floor(this.enemies[i].y));
+                draw_image(ctx, loader.get_image(this.enemies[i].graphic), this.enemies[i].x, this.enemies[i].y);
             }
         }
 
@@ -39,7 +41,7 @@ class Level {
             } else {
                 this.projectiles[i].update_func(this.projectiles[i], time);
                 this.projectiles[i].check_hits(this.enemies);
-                ctx.drawImage(loader.get_image(this.projectiles[i].graphic), Math.floor(this.projectiles[i].x), Math.floor(this.projectiles[i].y));
+                draw_image(ctx, loader.get_image(this.projectiles[i].graphic), this.projectiles[i].x, this.projectiles[i].y);
                 if (this.projectiles[i].x - this.player.x > 64) {
                     this.projectiles[i].dead = true;
                 }
