@@ -10,6 +10,11 @@ class ResourceLoader {
         return this.image_map[name];
     }
 
+    public get_image_dimensions(name: string): [number, number] {
+        let image = this.get_image(name);
+        return [image.width, image.height];
+    }
+
     public load_images(urls: [string, string][]): number[] {
         let ids = [];
         for (let i = 0; i < urls.length; i++) {

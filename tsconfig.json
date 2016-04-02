@@ -7,9 +7,13 @@
   ],
   "files": [
     "./lib/tween.d.ts",
+    "./src/ai_entity.ts",
+    "./src/enemy.ts",
     "./src/game_state.ts",
     "./src/main_menu_state.ts",
     "./src/main.ts",
+    "./src/player.ts",
+    "./src/projectile.ts",
     "./src/resource_loader.ts",
     "./src/state.ts",
     "./src/time.ts",
