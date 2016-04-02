@@ -10,8 +10,8 @@ let mouse_y = 0;
 let mouse_down = false;
 let key: boolean[] = [];
 
-let KEY_UP = 83;
-let KEY_DOWN = 87;
+let KEY_UP = 87;
+let KEY_DOWN = 83;
 let KEY_SHOOT = 32;
 
 window.onkeydown = (ev: KeyboardEvent) => {

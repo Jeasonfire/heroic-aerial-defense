@@ -16,7 +16,7 @@ class Player {
 
     public move(time: Time, x: number, y: number) {
         this.x += x * this.speed * time.delta;
-        this.y += y * this.speed * time.delta;
+        this.y += y * this.speed * time.delta * 2.0;
         if (y === 0) {
             this.y = Math.floor(this.y);
         }

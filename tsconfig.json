@@ -10,6 +10,7 @@
     "./src/ai_entity.ts",
     "./src/enemy.ts",
     "./src/game_state.ts",
+    "./src/level.ts",
     "./src/main_menu_state.ts",
     "./src/main.ts",
     "./src/player.ts",
