@@ -7,18 +7,18 @@
   ],
   "files": [
     "./lib/tween.d.ts",
-    "./src/ai_entity.ts",
-    "./src/enemy.ts",
-    "./src/game_state.ts",
-    "./src/level.ts",
-    "./src/main_menu_state.ts",
     "./src/main.ts",
-    "./src/player.ts",
-    "./src/projectile.ts",
-    "./src/resource_loader.ts",
-    "./src/state.ts",
-    "./src/time.ts",
-    "./src/util.ts"
+    "./src/mechanics/ai_entity.ts",
+    "./src/mechanics/enemy.ts",
+    "./src/mechanics/level.ts",
+    "./src/mechanics/player.ts",
+    "./src/mechanics/projectile.ts",
+    "./src/states/game_state.ts",
+    "./src/states/main_menu_state.ts",
+    "./src/states/state.ts",
+    "./src/util/resource_loader.ts",
+    "./src/util/time.ts",
+    "./src/util/util.ts"
   ],
   "atom": {
     "rewriteTsconfig": true
