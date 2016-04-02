@@ -31,7 +31,9 @@ class Main {
     public load_resources() {
         this.loader.load_images([
             ["bg", "./res/background.png"],
-            ["player_ship", "./res/player_ship.png"],
+            ["ship_player", "./res/ship_player.png"],
+            ["ship_basic", "./res/ship_basic.png"],
+            ["projectile_basic", "./res/projectile_basic.png"],
         ]);
     }
 

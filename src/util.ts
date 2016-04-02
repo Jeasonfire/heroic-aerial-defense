@@ -8,6 +8,22 @@ function draw_text(ctx: CanvasRenderingContext2D, text: string, x: number, y: nu
 let mouse_x = 0;
 let mouse_y = 0;
 let mouse_down = false;
+let key: boolean[] = [];
+
+let KEY_UP = 83;
+let KEY_DOWN = 87;
+let KEY_SHOOT = 32;
+
+window.onkeydown = (ev: KeyboardEvent) => {
+    key[ev.keyCode] = true;
+};
+window.onkeyup = (ev: KeyboardEvent) => {
+    key[ev.keyCode] = false;
+};
+
+function mouse_over(x: number, y: number, w: number, h: number): boolean {
+    return !(mouse_x < x || mouse_x >= x + w || mouse_y < y || mouse_y >= y + h);
+}
 
 class Rectangle {
     public x: number;
@@ -29,8 +45,4 @@ class Rectangle {
         return !(other.x + other.w < this.x || other.x >= this.x + this.w ||
                 other.y + other.h < this.y || other.y >= this.y + this.h);
     }
-}
-
-function mouse_over(x: number, y: number, w: number, h: number): boolean {
-    return !(mouse_x < x || mouse_x >= x + w || mouse_y < y || mouse_y >= y + h);
 }
