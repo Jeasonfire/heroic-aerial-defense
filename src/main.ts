@@ -25,7 +25,7 @@ class Main {
             mouse_down = false;
         };
 
-        change_state(new MainMenuState());
+        StateManager.change_state(new MainMenuState());
     }
 
     public load_resources() {
@@ -50,7 +50,7 @@ class Main {
             return;
         }
 
-        update_state(this.time, this.ctx, this.loader);
+        StateManager.update_state(this.time, this.ctx, this.loader);
         TWEEN.update(time);
     }
 

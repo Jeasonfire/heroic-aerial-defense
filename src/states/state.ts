@@ -1,20 +1,26 @@
-let current_state: State = null;
-let new_state: State = null;
+class StateManager {
+    private static current_state: State = null;
+    private static new_state: State = null;
+    private static should_change: boolean = false;
 
-function change_state(state: State) {
-    new_state = state;
-}
-
-function update_state(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
-    if (new_state !== current_state) {
-        if (current_state !== null) {
-            current_state.destroy();
-        }
-        current_state = new_state;
-        console.log("New state!");
-        current_state.initialize(loader);
+    public static change_state(state: State) {
+        StateManager.new_state = state;
+        StateManager.should_change = true;
     }
-    current_state.render(time, ctx, loader);
+
+    public static update_state(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+        if (StateManager.should_change) {
+            if (StateManager.current_state !== null) {
+                StateManager.current_state.destroy();
+            }
+            StateManager.current_state = StateManager.new_state;
+            StateManager.current_state.initialize(loader);
+            StateManager.should_change = false;
+        }
+        if (StateManager.current_state !== null) {
+            StateManager.current_state.render(time, ctx, loader);
+        }
+    }
 }
 
 interface State {

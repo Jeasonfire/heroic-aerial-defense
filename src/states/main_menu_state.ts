@@ -6,10 +6,7 @@ class MainMenuState implements State {
         this.globalScale = {offset: 0};
         this.buttons = [
             [{name: "Play", hover: false, activation: 0}, () => {
-                new TWEEN.Tween(this.globalScale)
-                        .to({offset: -1}, 500)
-                        .onComplete(() => { change_state(new GameState()); })
-                        .start();
+                StateManager.change_state(new GameState());
             }],
             [{name: "Options", hover: false, activation: 0}, () => {
                 alert("Options not implemented yet.");
