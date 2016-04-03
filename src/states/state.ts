@@ -11,6 +11,7 @@ function update_state(time: Time, ctx: CanvasRenderingContext2D, loader: Resourc
             current_state.destroy();
         }
         current_state = new_state;
+        console.log("New state!");
         current_state.initialize(loader);
     }
     current_state.render(time, ctx, loader);

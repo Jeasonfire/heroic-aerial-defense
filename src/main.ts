@@ -32,6 +32,7 @@ class Main {
         this.loader.load_images([
             ["bg", "./res/background.png"],
             ["ship_player", "./res/ship_player_0.png"],
+            ["ship_basic", "./res/ship_basic_0.png"],
             ["ship_basic_0", "./res/ship_basic_0.png"],
             ["ship_basic_1", "./res/ship_basic_1.png"],
             ["ship_basic_2", "./res/ship_basic_2.png"],

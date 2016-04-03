@@ -1,17 +1,14 @@
-class Player {
+class Player extends Entity {
     public x: number;
     public y: number;
-    public shooting_rate: number;
     public speed: number;
 
-    private shoot_cooldown_time: number;
-
-    public constructor(x: number = 8, y: number = 28, shooting_rate: number = 10, speed: number = 24) {
+    public constructor(x: number, y: number, shooting_rate: number,
+            speed: number, loader: ResourceLoader) {
+        super(x, y, 3, shooting_rate, 1, "ship_player", () => {}, loader);
         this.x = x;
         this.y = y;
-        this.shooting_rate = shooting_rate;
         this.speed = speed;
-        this.shoot_cooldown_time = 0;
     }
 
     public move(time: Time, x: number, y: number) {
@@ -19,15 +16,6 @@ class Player {
         this.y += y * this.speed * time.delta * 2.0;
         if (y === 0) {
             this.y = Math.floor(this.y);
-        }
-    }
-
-    public shoot(time: Time): Projectile {
-        if (this.shoot_cooldown_time > time.total_ms) {
-            return null;
-        } else {
-            this.shoot_cooldown_time = time.total_ms + 1000 / this.shooting_rate;
-            return new Projectile(this.x + 4, this.y + 1, 1, ProjectileType.BASIC);
         }
     }
 }

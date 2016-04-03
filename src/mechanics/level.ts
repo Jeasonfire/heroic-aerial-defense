@@ -4,8 +4,8 @@ class Level {
     public enemies: Enemy[];
     public scrolling_speed: number;
 
-    public constructor(scrolling_speed: number, player: Player, enemies: Enemy[]) {
-        this.player = player;
+    public constructor(loader: ResourceLoader, scrolling_speed: number, enemies: Enemy[]) {
+        this.player = new Player(8, 32, 10, scrolling_speed, loader);
         this.player.speed = scrolling_speed;
         this.projectiles = [];
         this.enemies = enemies;
@@ -20,7 +20,7 @@ class Level {
         draw_image(ctx, loader.get_image("ship_player"), this.player.x, this.player.y);
 
         if (key[KEY_SHOOT]) {
-            let projectile = this.player.shoot(time);
+            let projectile = this.player.shoot(time, loader);
             if (projectile !== null) {
                 this.projectiles.push(projectile);
             }
@@ -32,8 +32,11 @@ class Level {
             } else if (!this.enemies[i].active && this.enemies[i].x - this.player.x < 60) {
                 this.enemies[i].active = true;
             } else {
-                this.enemies[i].update_func(this.enemies[i], time);
+                this.enemies[i].update_func(this.enemies[i], time, loader);
                 draw_image(ctx, loader.get_image(this.enemies[i].get_graphic() + "_" + this.enemies[i].get_frame()), this.enemies[i].x, this.enemies[i].y);
+                if (this.enemies[i].get_hitbox().overlap(this.player.get_hitbox())) {
+
+                }
             }
         }
 
@@ -41,7 +44,8 @@ class Level {
             if (this.projectiles[i].dead) {
                 this.projectiles.splice(i, 1);
             } else {
-                this.projectiles[i].update_func(this.projectiles[i], time);
+                this.projectiles[i].update_func(this.projectiles[i], time, loader);
+                this.projectiles[i].x += this.player.speed * time.delta;
                 this.projectiles[i].check_hits(this.enemies);
                 draw_image(ctx, loader.get_image(this.projectiles[i].get_graphic()), this.projectiles[i].x, this.projectiles[i].y);
                 if (this.projectiles[i].x - this.player.x > 64) {

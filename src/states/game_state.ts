@@ -4,7 +4,7 @@ class GameState implements State {
     private parallax_multiplier: number;
 
     public initialize(loader: ResourceLoader) {
-        this.level = new Level(16, new Player(), [
+        this.level = new Level(loader, 16, [
             new Enemy(120, 16 + Math.random() * 32, EnemyType.BASIC, loader),
             new Enemy(140, 16 + Math.random() * 32, EnemyType.BASIC, loader),
             new Enemy(160, 16 + Math.random() * 32, EnemyType.BASIC, loader),
