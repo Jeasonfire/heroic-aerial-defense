@@ -29,9 +29,11 @@ class Level {
         for (let i = 0; i < this.enemies.length; i++) {
             if (this.enemies[i].is_dead()) {
                 this.enemies.splice(i, 1);
+            } else if (!this.enemies[i].active && this.enemies[i].x - this.player.x < 60) {
+                this.enemies[i].active = true;
             } else {
                 this.enemies[i].update_func(this.enemies[i], time);
-                draw_image(ctx, loader.get_image(this.enemies[i].graphic), this.enemies[i].x, this.enemies[i].y);
+                draw_image(ctx, loader.get_image(this.enemies[i].get_graphic() + "_" + this.enemies[i].get_frame()), this.enemies[i].x, this.enemies[i].y);
             }
         }
 
@@ -41,7 +43,7 @@ class Level {
             } else {
                 this.projectiles[i].update_func(this.projectiles[i], time);
                 this.projectiles[i].check_hits(this.enemies);
-                draw_image(ctx, loader.get_image(this.projectiles[i].graphic), this.projectiles[i].x, this.projectiles[i].y);
+                draw_image(ctx, loader.get_image(this.projectiles[i].get_graphic()), this.projectiles[i].x, this.projectiles[i].y);
                 if (this.projectiles[i].x - this.player.x > 64) {
                     this.projectiles[i].dead = true;
                 }

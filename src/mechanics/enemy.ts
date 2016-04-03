@@ -3,16 +3,19 @@ enum EnemyType {
 }
 
 class Enemy extends AIEntity {
+    public active: boolean;
+
     private hitbox: Rectangle;
-    private health: number;
+    private stats: {health: number, dead: boolean, frame: number};
 
     public constructor(x: number, y: number, enemy_type: EnemyType, loader: ResourceLoader) {
         let graphic = Enemy.get_graphic(enemy_type);
         super(x, y, graphic, Enemy.get_update_func(enemy_type));
 
-        let dims = loader.get_image_dimensions(graphic);
+        let dims = loader.get_image_dimensions(graphic + "_0");
         this.hitbox = new Rectangle(0, 0, dims[0], dims[1]);
-        this.health = Enemy.get_health(enemy_type);
+        this.active = false;
+        this.stats = {health: Enemy.get_health(enemy_type), dead: false, frame: 0};
     }
 
     public get_hitbox(): Rectangle {
@@ -22,11 +25,24 @@ class Enemy extends AIEntity {
     }
 
     public take_damage(damage: number) {
-        this.health -= damage;
+        if (this.active) {
+            this.stats.health -= damage;
+            if (this.stats.health <= 0) {
+                new TWEEN.Tween(this.stats)
+                        .to({frame: 3}, 150)
+                        .easing(TWEEN.Easing.Cubic.Out)
+                        .onComplete(() => { this.stats.dead = true; })
+                        .start();
+            }
+        }
     }
 
     public is_dead(): boolean {
-        return this.health <= 0;
+        return this.stats.dead;
+    }
+
+    public get_frame(): number {
+        return Math.min(2, Math.floor(this.stats.frame));
     }
 
     private static get_graphic(type: EnemyType): string {
