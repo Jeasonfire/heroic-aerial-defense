@@ -42,6 +42,7 @@ let key: boolean[] = [];
 let KEY_UP = 87;
 let KEY_DOWN = 83;
 let KEY_SHOOT = 32;
+let KEY_RESET = 82;
 
 window.onkeydown = (ev: KeyboardEvent) => {
     key[ev.keyCode] = true;

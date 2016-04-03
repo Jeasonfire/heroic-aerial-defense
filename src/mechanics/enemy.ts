@@ -1,33 +1,51 @@
 enum EnemyType {
-    BASIC, TURRET
+    BASIC, TURRET_ADVANCED, TURRET_BASIC
 }
 
 class Enemy extends Entity {
-    public constructor(x: number, y: number, enemy_type: EnemyType, loader: ResourceLoader) {
+    private data: {};
+
+    public constructor(x: number, y: number, enemy_type: EnemyType, level: Level, loader: ResourceLoader) {
         super(x, y, Enemy.get_health(enemy_type), Enemy.get_shooting_rate(enemy_type),
             -1, Enemy.get_graphic(enemy_type), Enemy.get_update_func(enemy_type, loader), loader);
         this.active = false;
+        this.data = {};
     }
 
     private static get_graphic(type: EnemyType): string {
         switch (type) {
         default:
-        case EnemyType.BASIC:
-        case EnemyType.TURRET:
             return "ship_basic";
         }
     }
 
-    private static get_update_func(type: EnemyType, loader: ResourceLoader): (self: Enemy, time: Time) => any {
+    private static get_update_func(type: EnemyType, loader: ResourceLoader): (self: Enemy, level: Level, time: Time) => any {
         switch (type) {
         default:
         case EnemyType.BASIC:
-            return (self: Enemy, time: Time) => {
+            return (self: Enemy, level: Level, time: Time) => {
                 self.y += 0.05 * Math.sin(time.total_ms / 4000.0 * 2.0 * Math.PI);
             };
-        case EnemyType.TURRET:
-            return (self: Enemy, time: Time) => {
-                self.shoot(time, loader);
+        case EnemyType.TURRET_BASIC:
+            return (self: Enemy, level: Level, time: Time) => {
+                self.shoot(time, level.projectiles, loader);
+            };
+        case EnemyType.TURRET_ADVANCED:
+            return (self: Enemy, level: Level, time: Time) => {
+                if (self.data["shoot_count"] === undefined) {
+                    self.data["shoot_count"] = 0;
+                    self.data["original_shooting_rate"] = self.shooting_rate;
+                }
+                if (self.shoot(time, level.projectiles, loader)) {
+                    self.data["shoot_count"]++;
+                    if (self.data["shoot_count"] === 3) {
+                        self.shooting_rate = 0.3;
+                        self.data["shoot_count"] = 0;
+                    }
+                    if (self.data["shoot_count"] === 1) {
+                        self.shooting_rate = self.data["original_shooting_rate"];
+                    }
+                }
             };
         }
     }
@@ -37,7 +55,9 @@ class Enemy extends Entity {
         default:
         case EnemyType.BASIC:
             return 3;
-        case EnemyType.TURRET:
+        case EnemyType.TURRET_BASIC:
+            return 1;
+        case EnemyType.TURRET_ADVANCED:
             return 2;
         }
     }
@@ -47,8 +67,10 @@ class Enemy extends Entity {
         default:
         case EnemyType.BASIC:
             return 0;
-        case EnemyType.TURRET:
-            return 0.5;
+        case EnemyType.TURRET_BASIC:
+            return 0.4;
+        case EnemyType.TURRET_ADVANCED:
+            return 12;
         }
     }
 }

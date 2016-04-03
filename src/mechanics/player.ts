@@ -9,6 +9,7 @@ class Player extends Entity {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.shooting_offset[1] = 1;
     }
 
     public move(time: Time, x: number, y: number) {

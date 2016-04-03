@@ -3,8 +3,10 @@ class Entity {
     public y: number;
     public projectile_direction: number;
     public shooting_rate: number;
-    public update_func: (self: Entity, time: Time, loader: ResourceLoader) => any;
+    public update_func: (self: Entity, level: Level, time: Time) => any;
     public active: boolean;
+
+    protected shooting_offset: [number, number];
 
     private graphic: string;
     private hitbox: Rectangle;
@@ -13,7 +15,7 @@ class Entity {
 
     public constructor(x: number, y: number, health: number, shooting_rate: number,
             projectile_direction: number, graphic: string,
-            update_func: (self: Entity, time: Time) => any, loader: ResourceLoader) {
+            update_func: (self: Entity, level: Level, time: Time) => any, loader: ResourceLoader) {
         this.x = x;
         this.y = y;
         this.projectile_direction = projectile_direction;
@@ -25,6 +27,7 @@ class Entity {
         this.hitbox = new Rectangle(0, 0, dims[0], dims[1]);
         this.stats = {health: health, dead: false, frame: 0};
         this.active = true;
+        this.shooting_offset = [Math.ceil(dims[0] / 2.0), 0];
     }
 
     public get_graphic(): string {
@@ -37,6 +40,10 @@ class Entity {
         return this.hitbox;
     }
 
+    public get_health(): number {
+        return this.stats.health;
+    }
+
     public is_dead(): boolean {
         return this.stats.dead;
     }
@@ -45,12 +52,14 @@ class Entity {
         return Math.min(2, Math.floor(this.stats.frame));
     }
 
-    public shoot(time: Time, loader: ResourceLoader) {
-        if (this.shooting_rate <= 0 || this.shoot_cooldown_time > time.total_ms) {
-            return null;
-        } else {
+    public shoot(time: Time, projectiles: Projectile[], loader: ResourceLoader): boolean {
+        if (this.shooting_rate > 0 && this.shoot_cooldown_time < time.total_ms) {
             this.shoot_cooldown_time = time.total_ms + 1000 / this.shooting_rate;
-            return new Projectile(this.x + 4, this.y + 1, this.projectile_direction, ProjectileType.BASIC, loader);
+            projectiles.push(new Projectile(this.x + this.shooting_offset[0] * this.projectile_direction,
+                this.y + this.shooting_offset[1], this.projectile_direction, ProjectileType.BASIC, loader));
+            return true;
+        } else {
+            return false;
         }
     }
 
