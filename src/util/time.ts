@@ -1,11 +1,11 @@
 class Time {
-    public delta = 0;
-    public total_ms = 0;
-    private last_time = 0;
+    public static delta = 0;
+    public static total_ms = 0;
+    private static last_time = 0;
 
-    public update_time(time: number) {
-        this.delta = (time - this.last_time) / 1000.0;
-        this.total_ms = time;
-        this.last_time = time;
+    public static update_time(time: number) {
+        Time.delta = (time - Time.last_time) / 1000.0;
+        Time.total_ms = time;
+        Time.last_time = time;
     }
 }

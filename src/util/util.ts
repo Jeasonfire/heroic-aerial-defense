@@ -3,18 +3,18 @@ function draw_text(ctx: CanvasRenderingContext2D, text: string, x: number, y: nu
     ctx.save();
     ctx.fillStyle = style;
     ctx.font = (7 * scale) + "px pixel";
-    ctx.fillText(text, Math.floor(x - text_width_div2(ctx, text, scale)), Math.floor(y + 5 * scale - 3.5));
+    ctx.fillText(text, Math.floor(x - text_width_div2(ctx, text, scale) + offset_x), Math.floor(y + 5 * scale - 3.5 + offset_y));
     ctx.restore();
 }
 
 function draw_image(ctx: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number) {
-    ctx.drawImage(image, Math.floor(x - image.width / 2.0), Math.floor(y - image.height / 2.0));
+    ctx.drawImage(image, Math.floor(x - image.width / 2.0 + offset_x), Math.floor(y - image.height / 2.0 + offset_y));
 }
 
 function draw_rect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number = 1, h: number = 1, style: string = "white") {
     ctx.save();
     ctx.fillStyle = style;
-    ctx.fillRect(Math.floor(x - w / 2.0), Math.floor(y - h / 2.0), w, h);
+    ctx.fillRect(Math.floor(x - w / 2.0 + offset_x), Math.floor(y - h / 2.0 + offset_y), w, h);
     ctx.restore();
 }
 
@@ -32,6 +32,13 @@ function text_width_div2(ctx: CanvasRenderingContext2D, text: string, scale: num
     let width = ctx.measureText(text).width;
     ctx.restore();
     return Math.floor(width / 2.0);
+}
+
+let offset_x = 0;
+let offset_y = 0;
+function set_translation(x: number, y: number) {
+    offset_x = x;
+    offset_y = y;
 }
 
 let mouse_x = 0;

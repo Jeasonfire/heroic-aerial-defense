@@ -19,24 +19,24 @@ class Enemy extends Entity {
         }
     }
 
-    private static get_update_func(type: EnemyType, loader: ResourceLoader): (self: Enemy, level: Level, time: Time) => any {
+    private static get_update_func(type: EnemyType, loader: ResourceLoader): (self: Enemy, level: Level) => any {
         switch (type) {
         default:
         case EnemyType.BASIC:
-            return (self: Enemy, level: Level, time: Time) => {
-                self.y += 0.05 * Math.sin(time.total_ms / 4000.0 * 2.0 * Math.PI);
+            return (self: Enemy, level: Level) => {
+                self.y += 0.05 * Math.sin(Time.total_ms / 4000.0 * 2.0 * Math.PI);
             };
         case EnemyType.TURRET_BASIC:
-            return (self: Enemy, level: Level, time: Time) => {
-                self.shoot(time, level.projectiles, loader);
+            return (self: Enemy, level: Level) => {
+                self.shoot(level.projectiles, loader);
             };
         case EnemyType.TURRET_ADVANCED:
-            return (self: Enemy, level: Level, time: Time) => {
+            return (self: Enemy, level: Level) => {
                 if (self.data["shoot_count"] === undefined) {
                     self.data["shoot_count"] = 0;
                     self.data["original_shooting_rate"] = self.shooting_rate;
                 }
-                if (self.shoot(time, level.projectiles, loader)) {
+                if (self.shoot(level.projectiles, loader)) {
                     self.data["shoot_count"]++;
                     if (self.data["shoot_count"] === 3) {
                         self.shooting_rate = 0.3;

@@ -1,8 +1,6 @@
 class Main {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
-
-    private time = new Time();
     private loader = new ResourceLoader();
 
     public constructor(canvas_id: string, width: number, height: number) {
@@ -30,7 +28,9 @@ class Main {
 
     public load_resources() {
         this.loader.load_images([
-            ["bg", "./res/background.png"],
+            ["bg_bot", "./res/background_bot.png"],
+            ["bg_mid", "./res/background_mid.png"],
+            ["bg_top", "./res/background_top.png"],
 
             ["ship_player", "./res/ship_player_0.png"],
             ["ship_player_0", "./res/ship_player_0.png"],
@@ -47,16 +47,17 @@ class Main {
     }
 
     public render(time: number) {
-        this.time.update_time(time);
+        Time.update_time(time);
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, 64, 64);
 
         if (!this.loader.done()) {
-            this.draw_loading(this.time.delta);
+            this.draw_loading(Time.delta);
             return;
         }
 
-        StateManager.update_state(this.time, this.ctx, this.loader);
+        StateManager.update_state(this.ctx, this.loader);
+        ParticleManager.render(this.ctx);
         TWEEN.update(time);
     }
 

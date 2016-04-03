@@ -18,17 +18,23 @@ class GameState implements State {
         this.parallax_multiplier = 4.0;
     }
 
-    public render(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
-        this.scroll -= time.delta * this.level.scrolling_speed * this.parallax_multiplier;
-        draw_image(ctx, loader.get_image("bg"), Math.floor(this.scroll) % 128 + 64, 32);
-        draw_image(ctx, loader.get_image("bg"), Math.floor(this.scroll) % 128 + 192, 32);
+    public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+        this.scroll -= Time.delta * this.level.scrolling_speed * this.parallax_multiplier;
+
+        set_translation(0, 0);
+        draw_image(ctx, loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 64, 32);
+        draw_image(ctx, loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 192, 32);
+        draw_image(ctx, loader.get_image("bg_mid"), Math.floor(this.scroll) % 128 + 64, 32);
+        draw_image(ctx, loader.get_image("bg_mid"), Math.floor(this.scroll) % 128 + 192, 32);
+        draw_image(ctx, loader.get_image("bg_top"), Math.floor(this.scroll * 1.7) % 128 + 64, 32);
+        draw_image(ctx, loader.get_image("bg_top"), Math.floor(this.scroll * 1.7) % 128 + 192, 32);
+
         draw_text(ctx, "Health: " + this.level.player.get_health(), 32, 5);
-        ctx.save();
-        ctx.translate(Math.floor(this.scroll / this.parallax_multiplier), 0);
-        this.level.render(time, ctx, loader);
-        ctx.restore();
+        set_translation(Math.floor(this.scroll / this.parallax_multiplier), 0);
+        this.level.render(ctx, loader);
     }
 
     public destroy() {
+        set_translation(0, 0);
     }
 }

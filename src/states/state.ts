@@ -8,7 +8,7 @@ class StateManager {
         StateManager.should_change = true;
     }
 
-    public static update_state(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+    public static update_state(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
         if (StateManager.should_change) {
             if (StateManager.current_state !== null) {
                 StateManager.current_state.destroy();
@@ -18,13 +18,13 @@ class StateManager {
             StateManager.should_change = false;
         }
         if (StateManager.current_state !== null) {
-            StateManager.current_state.render(time, ctx, loader);
+            StateManager.current_state.render(ctx, loader);
         }
     }
 }
 
 interface State {
     initialize(loader: ResourceLoader);
-    render(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader);
+    render(ctx: CanvasRenderingContext2D, loader: ResourceLoader);
     destroy();
 }

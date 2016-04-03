@@ -12,16 +12,16 @@ class Level {
         this.scrolling_speed = scrolling_speed;
     }
 
-    public render(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+    public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
         let y_movement = 0;
         if (!this.player.is_dead()) {
             if (key[KEY_UP]) y_movement--;
             if (key[KEY_DOWN]) y_movement++;
             if (key[KEY_SHOOT]) {
-                this.player.shoot(time, this.projectiles, loader);
+                this.player.shoot(this.projectiles, loader);
             }
         }
-        this.player.move(time, 1, y_movement);
+        this.player.move(1, y_movement);
         if (key[KEY_RESET]) {
             StateManager.change_state(new GameState());
         }
@@ -33,7 +33,7 @@ class Level {
             } else if (!this.enemies[i].active && this.enemies[i].x - this.player.x < 60) {
                 this.enemies[i].active = true;
             } else {
-                this.enemies[i].update_func(this.enemies[i], this, time);
+                this.enemies[i].update_func(this.enemies[i], this);
                 draw_image(ctx, loader.get_image(this.enemies[i].get_graphic() + "_" + this.enemies[i].get_frame()), this.enemies[i].x, this.enemies[i].y);
                 if (this.enemies[i].get_hitbox().overlap(this.player.get_hitbox())) {
 
@@ -45,8 +45,8 @@ class Level {
             if (this.projectiles[i].dead) {
                 this.projectiles.splice(i, 1);
             } else {
-                this.projectiles[i].update_func(this.projectiles[i], this, time);
-                this.projectiles[i].x += this.player.speed * time.delta;
+                this.projectiles[i].update_func(this.projectiles[i], this);
+                this.projectiles[i].x += this.player.speed * Time.delta;
                 this.projectiles[i].check_hits(this);
                 draw_image(ctx, loader.get_image(this.projectiles[i].get_graphic()), this.projectiles[i].x, this.projectiles[i].y);
                 if (this.projectiles[i].x - this.player.x > 64) {

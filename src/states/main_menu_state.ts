@@ -14,9 +14,11 @@ class MainMenuState implements State {
         ];
     }
 
-    public render(time: Time, ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+    public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
         ctx.save();
-        ctx.drawImage(loader.get_image("bg"), 0, 0);
+        ctx.drawImage(loader.get_image("bg_bot"), 0, 0);
+        ctx.drawImage(loader.get_image("bg_mid"), 0, 0);
+        ctx.drawImage(loader.get_image("bg_top"), 0, 0);
         ctx.translate(this.globalScale.offset * 64, 1);
 
         draw_text(ctx, "HeAeDe", 32, 5, 2);

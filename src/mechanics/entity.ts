@@ -3,7 +3,7 @@ class Entity {
     public y: number;
     public projectile_direction: number;
     public shooting_rate: number;
-    public update_func: (self: Entity, level: Level, time: Time) => any;
+    public update_func: (self: Entity, level: Level) => any;
     public active: boolean;
 
     protected shooting_offset: [number, number];
@@ -15,7 +15,7 @@ class Entity {
 
     public constructor(x: number, y: number, health: number, shooting_rate: number,
             projectile_direction: number, graphic: string,
-            update_func: (self: Entity, level: Level, time: Time) => any, loader: ResourceLoader) {
+            update_func: (self: Entity, level: Level) => any, loader: ResourceLoader) {
         this.x = x;
         this.y = y;
         this.projectile_direction = projectile_direction;
@@ -52,9 +52,9 @@ class Entity {
         return Math.min(2, Math.floor(this.stats.frame));
     }
 
-    public shoot(time: Time, projectiles: Projectile[], loader: ResourceLoader): boolean {
-        if (this.shooting_rate > 0 && this.shoot_cooldown_time < time.total_ms) {
-            this.shoot_cooldown_time = time.total_ms + 1000 / this.shooting_rate;
+    public shoot(projectiles: Projectile[], loader: ResourceLoader): boolean {
+        if (this.shooting_rate > 0 && this.shoot_cooldown_time < Time.total_ms) {
+            this.shoot_cooldown_time = Time.total_ms + 1000 / this.shooting_rate;
             projectiles.push(new Projectile(this.x + this.shooting_offset[0] * this.projectile_direction,
                 this.y + this.shooting_offset[1], this.projectile_direction, ProjectileType.BASIC, loader));
             return true;

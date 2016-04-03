@@ -16,6 +16,7 @@
     "./src/states/game_state.ts",
     "./src/states/main_menu_state.ts",
     "./src/states/state.ts",
+    "./src/util/particles.ts",
     "./src/util/resource_loader.ts",
     "./src/util/time.ts",
     "./src/util/util.ts"

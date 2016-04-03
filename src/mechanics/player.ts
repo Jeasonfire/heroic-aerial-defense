@@ -12,9 +12,9 @@ class Player extends Entity {
         this.shooting_offset[1] = 1;
     }
 
-    public move(time: Time, x: number, y: number) {
-        this.x += x * this.speed * time.delta;
-        this.y += y * this.speed * time.delta * 2.0;
+    public move(x: number, y: number) {
+        this.x += x * this.speed * Time.delta;
+        this.y += y * this.speed * Time.delta * 2.0;
         if (y === 0) {
             this.y = Math.floor(this.y);
         }
