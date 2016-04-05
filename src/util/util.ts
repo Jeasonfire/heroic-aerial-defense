@@ -42,15 +42,15 @@ function set_translation(x: number, y: number) {
     offset_y = y;
 }
 
-let tint: [number, number, number] = [1.0, 1.0, 1.0];
+let tint: [number, number, number] = [0.5, 0.5, 0.5];
 /* End of graphics utils */
 
 /* Start of audio utils */
 /* Insert sound playing functions and such when they're implemented */
 
-let vol_menu_sfx: number = 1.0;
-let vol_game_sfx: number = 1.0;
-let vol_music: number = 1.0;
+let vol_menu_sfx: number = 0.2;
+let vol_game_sfx: number = 0.2;
+let vol_music: number = 0.2;
 /* End of audio utils */
 
 /* Start of input utils */

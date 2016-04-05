@@ -29,10 +29,10 @@ class GenericMenuState implements State {
 
         draw_text(ctx, this.title, 32, 5, 2);
         for (let i = 0; i < this.sliders.length; i++) {
-            this.render_slider(ctx, 32, this.y_offset + i * 9, this.sliders[i]);
+            this.render_slider(ctx, 32, this.y_offset + i * 11, this.sliders[i]);
         }
         for (let i = 0; i < this.buttons.length; i++) {
-            this.render_button(ctx, 32, this.y_offset + (i + this.sliders.length) * 9, this.buttons[i]);
+            this.render_button(ctx, 32, this.y_offset + i * 9 + this.sliders.length * 11, this.buttons[i]);
         }
         if (this.back !== null) {
             this.render_button(ctx, 32, 56, this.back);
@@ -63,27 +63,17 @@ class GenericMenuState implements State {
     }
 
     public render_slider(ctx: CanvasRenderingContext2D, x: number, y: number, slider: [{name: string, slider_pos: number}, ((slider_pos: number) => any)]) {
-        let hover_minus = mouse_over(x - 24, y, 12, 8);
-        let hover_plus = mouse_over(x + 24, y, 12, 8);
-        let hover = mouse_over(x, y, 64, 7);
+        let hover = mouse_over(x - 1, y + 1, 64, 11);
 
-        draw_text(ctx, "-", x - 24 - (hover_minus ? 1 : 0), y);
-        draw_text(ctx, "+", x + 24 + (hover_plus ? 1 : 0), y);
-        draw_rect(ctx, x, y - 1, 30 * slider[0].slider_pos, 3 + (hover ? 4 : 0), "rgba(255, 255, 255, 0.4)");
+        let slider_width = 40 * slider[0].slider_pos;
+        draw_rect(ctx, x, y + 4, 42, 5, "rgba(170, 170, 170, 0.1)");
+        draw_rect(ctx, x, y + 4, 40, 3, "#222222");
+        draw_rect(ctx, x - 20 + slider_width / 2.0, y + 4, slider_width, 3, (hover ? "#AAAAAA" : "#666666"));
 
-        if (mouse_down) {
-            if (hover_minus) {
-                slider[0].slider_pos -= Time.delta;
-                if (slider[0].slider_pos < 0) {
-                    slider[0].slider_pos = 0;
-                }
-                slider[1](slider[0].slider_pos);
-            }
-            if (hover_plus) {
-                slider[0].slider_pos += Time.delta;
-                if (slider[0].slider_pos > 1) {
-                    slider[0].slider_pos = 1;
-                }
+        if (mouse_down && Time.total_ms - this.click_time > 300) {
+            if (hover) {
+                let new_slider_pos = Math.ceil((mouse_x - (x - 20)) / 2) / 20;
+                slider[0].slider_pos = Math.min(1, Math.max(0, new_slider_pos));
                 slider[1](slider[0].slider_pos);
             }
         }

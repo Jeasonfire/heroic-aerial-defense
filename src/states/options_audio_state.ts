@@ -1,6 +1,6 @@
 class OptionsAudioState extends GenericMenuState {
     public constructor() {
-        super("Audio", 24, [], [
+        super("Audio", 22, [], [
             [{name: "Game sfx", slider_pos: vol_game_sfx}, (slider_pos: number) => {
                 vol_game_sfx = slider_pos;
             }],

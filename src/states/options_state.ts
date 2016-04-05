@@ -1,6 +1,6 @@
 class OptionsState extends GenericMenuState {
     public constructor() {
-        super("Options", 24, [
+        super("Options", 22, [
             ["Color", () => {
                 StateManager.change_state(new OptionsTintState());
             }],
