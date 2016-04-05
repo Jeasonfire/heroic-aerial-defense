@@ -53,12 +53,29 @@ class Main {
 
         if (!this.loader.done()) {
             this.draw_loading(Time.delta);
-            return;
+        } else {
+            StateManager.update_state(this.ctx, this.loader);
+            ParticleManager.render(this.ctx);
         }
 
-        StateManager.update_state(this.ctx, this.loader);
-        ParticleManager.render(this.ctx);
         TWEEN.update(time);
+        this.apply_tint();
+    }
+
+    private apply_tint() {
+        let image_data = this.ctx.getImageData(0, 0, 64, 64);
+        let data = image_data.data;
+
+        let avg_tint = (tint[0] + tint[1] + tint[2]) / 3.0;
+        let real_tint = tint.map((n: number) => { return n / avg_tint; });
+        // Step of 4 because RGBA = 4 indices
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] = Math.min(255, Math.max(0, data[i] * real_tint[0]));
+            data[i + 1] = Math.min(255, Math.max(0, data[i + 1] * real_tint[1]));
+            data[i + 2] = Math.min(255, Math.max(0, data[i + 2] * real_tint[2]));
+        }
+        this.ctx.putImageData(image_data, 0, 0);
+        // No need to tint if the tint is white (because it would look the same)
     }
 
     private draw_loading(delta: number) {

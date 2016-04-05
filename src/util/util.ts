@@ -1,3 +1,4 @@
+/* Start of graphics utils */
 function draw_text(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, scale: number = 1, style: string = "white") {
     let original_style = ctx.fillStyle;
     ctx.save();
@@ -41,6 +42,18 @@ function set_translation(x: number, y: number) {
     offset_y = y;
 }
 
+let tint: [number, number, number] = [1.0, 1.0, 1.0];
+/* End of graphics utils */
+
+/* Start of audio utils */
+/* Insert sound playing functions and such when they're implemented */
+
+let vol_menu_sfx: number = 1.0;
+let vol_game_sfx: number = 1.0;
+let vol_music: number = 1.0;
+/* End of audio utils */
+
+/* Start of input utils */
 let mouse_x = 0;
 let mouse_y = 0;
 let mouse_down = false;
@@ -62,7 +75,9 @@ function mouse_over(x: number, y: number, w: number, h: number): boolean {
     return !(mouse_x < x - w / 2.0 || mouse_x >= x + w / 2.0 ||
             mouse_y < y - h / 2.0 || mouse_y >= y + h / 2.0);
 }
+/* End of input utils */
 
+/* Misc. */
 class Rectangle {
     public x: number;
     public y: number;
