@@ -1,21 +1,24 @@
 class GameState implements State {
     private level: Level;
+    private level_num: number;
     private scroll: number;
     private parallax_multiplier: number;
+    private start_time: number;
+
+    public constructor(level: number = 0) {
+        this.level_num = level;
+    }
 
     public initialize(loader: ResourceLoader) {
-        this.level = new Level(loader, 16, [
-            new Enemy(120, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-            new Enemy(140, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-            new Enemy(160, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-            new Enemy(180, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-            new Enemy(220, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-            new Enemy(240, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-            new Enemy(260, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-            new Enemy(280, 16 + Math.random() * 32, EnemyType.TURRET_BASIC, this.level, loader),
-        ]);
+        if (this.level_num >= LevelTemplate.LEVELS.length || this.level_num < 0) {
+            console.log("[ERROR]: Tried to load a level that doesn't exist. (Level " + this.level_num + ")");
+            console.log("[WORKAROUND]: Loading level 0.");
+            this.level_num = 0;
+        }
+        this.level = new Level(loader, 16, LevelTemplate.LEVELS[this.level_num]);
         this.scroll = 0;
         this.parallax_multiplier = 4.0;
+        this.start_time = Time.total_ms;
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
@@ -30,8 +33,21 @@ class GameState implements State {
         draw_image(ctx, loader.get_image("bg_top"), Math.floor(this.scroll * 1.7) % 128 + 192, 32);
 
         draw_text(ctx, "Health: " + this.level.player.get_health(), 32, 5);
+        if (Time.total_ms - this.start_time < 2000) {
+            draw_text(ctx, "Level: " + (this.level_num + 1), 32, 32);
+        }
+
         set_translation(Math.floor(this.scroll / this.parallax_multiplier), 0);
         this.level.render(ctx, loader);
+
+
+        if (this.level.finished()) {
+            if (this.level_num + 1 < LevelTemplate.LEVELS.length) {
+                StateManager.change_state(new GameState(this.level_num + 1));
+            } else {
+                StateManager.change_state(new MainMenuState());
+            }
+        }
     }
 
     public destroy() {

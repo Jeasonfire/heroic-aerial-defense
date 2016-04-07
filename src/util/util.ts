@@ -42,7 +42,7 @@ function set_translation(x: number, y: number) {
     offset_y = y;
 }
 
-let tint: [number, number, number] = [0.5, 0.5, 0.5];
+let tint: [number, number, number] = [0.667, 0.667, 0.667];
 /* End of graphics utils */
 
 /* Start of audio utils */

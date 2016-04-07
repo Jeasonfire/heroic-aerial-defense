@@ -4,12 +4,20 @@ class Level {
     public enemies: Enemy[];
     public scrolling_speed: number;
 
-    public constructor(loader: ResourceLoader, scrolling_speed: number, enemies: Enemy[]) {
+    private level_finish: number;
+
+    public constructor(loader: ResourceLoader, scrolling_speed: number, template: LevelTemplate) {
         this.player = new Player(8, 32, 10, scrolling_speed, loader);
         this.player.speed = scrolling_speed;
         this.projectiles = [];
-        this.enemies = enemies;
+        let temp = template.generate_enemies(this, loader);
+        this.enemies = temp[0];
+        this.level_finish = temp[1];
         this.scrolling_speed = scrolling_speed;
+    }
+
+    public finished(): boolean {
+        return this.player.x > this.level_finish;
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {

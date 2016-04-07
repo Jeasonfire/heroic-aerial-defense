@@ -10,6 +10,7 @@
     "./src/main.ts",
     "./src/mechanics/enemy.ts",
     "./src/mechanics/entity.ts",
+    "./src/mechanics/level_construction.ts",
     "./src/mechanics/level.ts",
     "./src/mechanics/player.ts",
     "./src/mechanics/projectile.ts",
