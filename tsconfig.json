@@ -20,6 +20,7 @@
     "./src/states/options_audio_state.ts",
     "./src/states/options_state.ts",
     "./src/states/options_tint_state.ts",
+    "./src/states/restart_state.ts",
     "./src/states/state.ts",
     "./src/util/particles.ts",
     "./src/util/resource_loader.ts",

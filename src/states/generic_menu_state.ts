@@ -27,7 +27,7 @@ class GenericMenuState implements State {
         ctx.drawImage(loader.get_image("bg_mid"), 0, 0);
         ctx.drawImage(loader.get_image("bg_top"), 0, 0);
 
-        draw_text(ctx, this.title, 32, 5, 2);
+        draw_text(ctx, this.title, 32, 10, 1);
         for (let i = 0; i < this.sliders.length; i++) {
             this.render_slider(ctx, 32, this.y_offset + i * 11, this.sliders[i]);
         }

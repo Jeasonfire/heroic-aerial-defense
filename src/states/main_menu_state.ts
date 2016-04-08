@@ -1,6 +1,6 @@
 class MainMenuState extends GenericMenuState {
     public constructor() {
-        super("HeAeDe", 46, [
+        super("", 46, [
             ["Play", () => {
                 StateManager.change_state(new GameState());
             }],
@@ -12,8 +12,8 @@ class MainMenuState extends GenericMenuState {
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
         super.render(ctx, loader);
-        draw_text(ctx, "Heroic", 20, 18, 1);
-        draw_text(ctx, "Aerial", 28, 24, 1);
-        draw_text(ctx, "Defense", 41, 30, 1);
+        draw_text(ctx, "Heroic", 20, 10, 1);
+        draw_text(ctx, "Aerial", 28, 16, 1);
+        draw_text(ctx, "Defense", 41, 22, 1);
     }
 }

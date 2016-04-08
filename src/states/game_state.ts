@@ -4,6 +4,7 @@ class GameState implements State {
     private scroll: number;
     private parallax_multiplier: number;
     private start_time: number;
+    private dead_time: number;
 
     public constructor(level: number = 0) {
         this.level_num = level;
@@ -19,6 +20,7 @@ class GameState implements State {
         this.scroll = 0;
         this.parallax_multiplier = 4.0;
         this.start_time = Time.total_ms;
+        this.dead_time = -1;
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
@@ -36,12 +38,22 @@ class GameState implements State {
         if (Time.total_ms - this.start_time < 2000) {
             draw_text(ctx, "Level: " + (this.level_num + 1), 32, 32);
         }
+        if (Time.total_ms - this.dead_time < 3000 && this.level.player.is_dead()) {
+            draw_text(ctx, "You died.", 32, 50);
+        }
 
         set_translation(Math.floor(this.scroll / this.parallax_multiplier), 0);
         this.level.render(ctx, loader);
 
 
-        if (this.level.finished()) {
+        if (this.level.player.is_dead()) {
+            if (this.dead_time === -1) {
+                this.dead_time = Time.total_ms;
+            }
+            if (Time.total_ms - this.dead_time > 3000) {
+                StateManager.change_state(new RestartState(this.level_num));
+            }
+        } else if (this.level.finished()) {
             if (this.level_num + 1 < LevelTemplate.LEVELS.length) {
                 StateManager.change_state(new GameState(this.level_num + 1));
             } else {
