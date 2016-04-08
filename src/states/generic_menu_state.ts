@@ -1,5 +1,5 @@
 class GenericMenuState implements State {
-    private buttons: [{name: string, hover: boolean, activation: number}, () => any][];
+    private buttons: [{name: string, activation: number}, () => any][];
     private sliders: [{name: string, slider_pos: number}, (slider_pos: number) => any][];
     private click_time: number;
     private title: string;
@@ -11,7 +11,7 @@ class GenericMenuState implements State {
         this.y_offset = y_offset;
         this.buttons = [];
         for (let i = 0; i < buttons.length; i++) {
-            this.buttons.push([{name: buttons[i][0], hover: false, activation: 0}, buttons[i][1]]);
+            this.buttons.push([{name: buttons[i][0], activation: 0}, buttons[i][1]]);
         }
         this.sliders = sliders;
         this.back = back_action !== null ?  [{name: "Back", hover: false, activation: 0}, back_action] : null;
@@ -39,21 +39,17 @@ class GenericMenuState implements State {
         }
     }
 
-    public render_button(ctx: CanvasRenderingContext2D, x: number, y: number, button: [{name: string, hover: boolean, activation: number}, (() => any)]) {
+    public render_button(ctx: CanvasRenderingContext2D, x: number, y: number, button: [{name: string, activation: number}, (() => any)]) {
         let hovering = mouse_over(x, y, text_width(ctx, button[0].name) + 2, 9);
-        if (hovering !== button[0].hover) {
             if (hovering) {
-                new TWEEN.Tween(button[0])
-                        .to({ activation: 1 }, 100)
-                        .start();
-                button[0].hover = true;
+                if (button[0].activation < 1) {
+                    button[0].activation = Math.min(button[0].activation + Time.delta * 10, 1);
+                }
             } else {
-                new TWEEN.Tween(button[0])
-                        .to({ activation: 0 }, 200)
-                        .start();
-                button[0].hover = false;
+                if (button[0].activation > 0) {
+                    button[0].activation = Math.max(button[0].activation - Time.delta * 10, 0);
+                }
             }
-        }
         draw_text(ctx, button[0].name, x, y);
         draw_rect(ctx, x, y + 4, text_width(ctx, button[0].name) * button[0].activation, 1);
         if (hovering && mouse_down && Time.total_ms - this.click_time > 300) {

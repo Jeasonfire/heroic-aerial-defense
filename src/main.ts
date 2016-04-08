@@ -58,7 +58,6 @@ class Main {
             ParticleManager.render(this.ctx);
         }
 
-        TWEEN.update(time);
         this.apply_tint();
     }
 

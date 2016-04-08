@@ -6,7 +6,6 @@
     "./**/*.ts"
   ],
   "files": [
-    "./lib/tween.d.ts",
     "./src/main.ts",
     "./src/mechanics/enemy.ts",
     "./src/mechanics/entity.ts",

@@ -12,6 +12,7 @@ class Entity {
     private hitbox: Rectangle;
     private shoot_cooldown_time: number;
     private stats: {health: number, dead: boolean, frame: number};
+    private last_frame_update_time = 0;
 
     public constructor(x: number, y: number, health: number, shooting_rate: number,
             projectile_direction: number, graphic: string,
@@ -28,6 +29,7 @@ class Entity {
         this.stats = {health: health, dead: false, frame: 0};
         this.active = true;
         this.shooting_offset = [Math.ceil(dims[0] / 2.0), 0];
+        this.last_frame_update_time = -1;
     }
 
     public get_graphic(): string {
@@ -49,6 +51,15 @@ class Entity {
     }
 
     public get_frame(): number {
+        if (this.stats.health <= 0) {
+            if (this.last_frame_update_time === -1) {
+                this.last_frame_update_time = Time.total_ms;
+            }
+            this.stats.frame += (Time.total_ms - this.last_frame_update_time) / 750.0;
+            if (this.stats.frame >= 2) {
+                this.stats.dead = true;
+            }
+        }
         return Math.min(2, Math.floor(this.stats.frame));
     }
 
@@ -66,13 +77,6 @@ class Entity {
     public take_damage(damage: number) {
         if (this.active) {
             this.stats.health -= damage;
-            if (this.stats.health <= 0) {
-                new TWEEN.Tween(this.stats)
-                        .to({frame: 3}, 150)
-                        .easing(TWEEN.Easing.Cubic.Out)
-                        .onComplete(() => { this.stats.dead = true; })
-                        .start();
-            }
         }
     }
 }
