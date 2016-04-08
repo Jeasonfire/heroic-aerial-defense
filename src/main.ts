@@ -16,12 +16,6 @@ class Main {
             mouse_y = evt.clientY - this.canvas.getBoundingClientRect().top;
             mouse_y = Math.floor(mouse_y * height / (canvas_rect.right - canvas_rect.left));
         };
-        window.onmousedown = () => {
-            mouse_down = true;
-        };
-        window.onmouseup = () => {
-            mouse_down = false;
-        };
 
         StateManager.change_state(new MainMenuState());
     }
@@ -58,6 +52,7 @@ class Main {
             ParticleManager.render(this.ctx);
         }
 
+        mouse_clicked = false;
         this.apply_tint();
     }
 

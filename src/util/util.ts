@@ -58,6 +58,7 @@ let mouse_x = 0;
 let mouse_y = 0;
 let mouse_down = false;
 let key: boolean[] = [];
+let mouse_clicked = false;
 
 let KEY_UP = 87;
 let KEY_DOWN = 83;
@@ -69,6 +70,13 @@ window.onkeydown = (ev: KeyboardEvent) => {
 };
 window.onkeyup = (ev: KeyboardEvent) => {
     key[ev.keyCode] = false;
+};
+window.onmousedown = () => {
+    mouse_down = true;
+    mouse_clicked = true;
+};
+window.onmouseup = () => {
+    mouse_down = false;
 };
 
 function mouse_over(x: number, y: number, w: number, h: number): boolean {
