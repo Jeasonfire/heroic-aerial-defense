@@ -57,6 +57,10 @@ class Main {
     }
 
     private apply_tint() {
+        if (tint[0].toFixed(2) === tint[1].toFixed(2) && tint[1].toFixed(2) === tint[2].toFixed(2)) {
+            return; // White tint, no need to change anything
+        }
+
         let image_data = this.ctx.getImageData(0, 0, 64, 64);
         let data = image_data.data;
 
@@ -69,7 +73,6 @@ class Main {
             data[i + 2] = Math.min(255, Math.max(0, data[i + 2] * real_tint[2]));
         }
         this.ctx.putImageData(image_data, 0, 0);
-        // No need to tint if the tint is white (because it would look the same)
     }
 
     private draw_loading(delta: number) {

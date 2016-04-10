@@ -23,16 +23,13 @@ class Level {
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
         let y_movement = 0;
         if (!this.player.is_dead()) {
-            if (key[KEY_UP]) y_movement--;
-            if (key[KEY_DOWN]) y_movement++;
-            if (key[KEY_SHOOT]) {
+            if (input_up) y_movement--;
+            if (input_down) y_movement++;
+            if (input_shoot) {
                 this.player.shoot(this.projectiles, loader);
             }
         }
         this.player.move(1, y_movement);
-        if (key[KEY_RESET]) {
-            StateManager.change_state(new GameState());
-        }
         draw_image(ctx, loader.get_image("ship_player_" + this.player.get_frame()), this.player.x, this.player.y);
 
         for (let i = 0; i < this.enemies.length; i++) {
@@ -43,8 +40,10 @@ class Level {
             } else {
                 this.enemies[i].update_func(this.enemies[i], this);
                 draw_image(ctx, loader.get_image(this.enemies[i].get_graphic() + "_" + this.enemies[i].get_frame()), this.enemies[i].x, this.enemies[i].y);
-                if (this.enemies[i].get_hitbox().overlap(this.player.get_hitbox())) {
-
+                if (this.enemies[i].get_hitbox().overlap(this.player.get_hitbox()) && this.enemies[i].get_health() > 0) {
+                    this.enemies[i].take_damage(Infinity);
+                    this.player.take_damage(2);
+                    ParticleManager.burst(this.enemies[i].x, this.enemies[i].y, 0.1, 30, 140);
                 }
             }
         }

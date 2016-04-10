@@ -4,7 +4,7 @@ function draw_text(ctx: CanvasRenderingContext2D, text: string, x: number, y: nu
     ctx.save();
     ctx.fillStyle = style;
     ctx.font = (7 * scale) + "px pixel";
-    ctx.fillText(text, Math.floor(x - text_width_div2(ctx, text, scale) + offset_x), Math.floor(y + 5 * scale - 3.5 + offset_y));
+    ctx.fillText(text, Math.floor(x - text_width_div2(ctx, text, scale) + offset_x), Math.floor(y + 5 * scale - 3.5 * scale + offset_y));
     ctx.restore();
 }
 
@@ -57,20 +57,32 @@ let vol_music: number = 0.2;
 let mouse_x = 0;
 let mouse_y = 0;
 let mouse_down = false;
-let key: boolean[] = [];
 let mouse_clicked = false;
 
-let KEY_UP = 87;
-let KEY_DOWN = 83;
-let KEY_SHOOT = 32;
-let KEY_RESET = 82;
+let KEYS_UP = [87, 38];
+let KEYS_DOWN = [83, 40];
+let KEYS_SHOOT = [32];
+let KEYS_RESET = [82];
+
+let input_up = false;
+let input_down = false;
+let input_shoot = false;
+let input_reset = false;
 
 window.onkeydown = (ev: KeyboardEvent) => {
-    key[ev.keyCode] = true;
+    if (KEYS_UP.indexOf(ev.keyCode) >= 0) input_up = true;
+    if (KEYS_DOWN.indexOf(ev.keyCode) >= 0) input_down = true;
+    if (KEYS_SHOOT.indexOf(ev.keyCode) >= 0) input_shoot = true;
+    if (KEYS_RESET.indexOf(ev.keyCode) >= 0) input_reset = true;
 };
 window.onkeyup = (ev: KeyboardEvent) => {
-    key[ev.keyCode] = false;
+    if (KEYS_UP.indexOf(ev.keyCode) >= 0) input_up = false;
+    if (KEYS_DOWN.indexOf(ev.keyCode) >= 0) input_down = false;
+    if (KEYS_SHOOT.indexOf(ev.keyCode) >= 0) input_shoot = false;
+    if (KEYS_RESET.indexOf(ev.keyCode) >= 0) input_reset = false;
 };
+
+
 window.onmousedown = () => {
     mouse_down = true;
     mouse_clicked = true;
@@ -83,6 +95,7 @@ function mouse_over(x: number, y: number, w: number, h: number): boolean {
     return !(mouse_x < x - w / 2.0 || mouse_x >= x + w / 2.0 ||
             mouse_y < y - h / 2.0 || mouse_y >= y + h / 2.0);
 }
+
 /* End of input utils */
 
 /* Misc. */

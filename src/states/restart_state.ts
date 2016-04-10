@@ -1,4 +1,6 @@
 class RestartState extends GenericMenuState {
+    private level_num: number;
+
     public constructor(level: number) {
         super("Continue?", 40, [
             ["Continue", () => {
@@ -8,5 +10,13 @@ class RestartState extends GenericMenuState {
                 StateManager.change_state(new MainMenuState());
             }]
         ], [], null);
+        this.level_num = level;
+    }
+
+    public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+        super.render(ctx, loader);
+        if (input_reset) {
+            StateManager.change_state(new GameState(this.level_num));
+        }
     }
 }

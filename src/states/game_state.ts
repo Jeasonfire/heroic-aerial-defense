@@ -36,7 +36,7 @@ class GameState implements State {
 
         draw_text(ctx, "Health: " + this.level.player.get_health(), 32, 5);
         if (Time.total_ms - this.start_time < 2000) {
-            draw_text(ctx, "Level: " + (this.level_num + 1), 32, 32);
+            draw_text(ctx, String(this.level_num + 1), 32, 32, 2);
         }
         if (Time.total_ms - this.dead_time < 3000 && this.level.player.is_dead()) {
             draw_text(ctx, "You died.", 32, 50);
@@ -59,6 +59,9 @@ class GameState implements State {
             } else {
                 StateManager.change_state(new MainMenuState());
             }
+        }
+        if (input_reset) {
+            StateManager.change_state(new GameState(this.level_num));
         }
     }
 
