@@ -14,7 +14,10 @@ class Player extends Entity {
 
     public move(x: number, y: number) {
         this.x += x * this.speed * Time.delta;
-        this.y += y * this.speed * Time.delta * 2.0;
+        this.y += y * this.speed * Time.delta;
+        if (x === 0) {
+            this.x = Math.floor(this.x);
+        }
         if (y === 0) {
             this.y = Math.floor(this.y);
         }

@@ -1,4 +1,6 @@
 class MainMenuState extends GenericMenuState {
+    public scrolling_speed = 1.0;
+
     public constructor() {
         super("", 46, [
             ["Play", () => {

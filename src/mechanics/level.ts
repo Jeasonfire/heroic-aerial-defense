@@ -3,24 +3,26 @@ class Level {
     public projectiles: Projectile[];
     public enemies: Enemy[];
     public scrolling_speed: number;
-
-    private level_finish: number;
+    public level_finish: number;
 
     public constructor(loader: ResourceLoader, scrolling_speed: number, template: LevelTemplate) {
-        this.player = new Player(8, 32, 10, scrolling_speed, loader);
-        this.player.speed = scrolling_speed;
+        this.player = new Player(8, 32, 10, 32, loader);
         this.projectiles = [];
         let temp = template.generate_enemies(this, loader);
         this.enemies = temp[0];
-        this.level_finish = temp[1];
+        this.level_finish = template.boss ? Infinity : Time.total_ms + temp[1] / scrolling_speed * 1000.0;
         this.scrolling_speed = scrolling_speed;
     }
 
     public finished(): boolean {
-        return this.player.x > this.level_finish;
+        return Time.total_ms > this.level_finish;
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
+        if (this.level_finish - Time.total_ms > 1000 && this.enemies.length === 0) {
+            this.level_finish = Time.total_ms + 1000;
+        }
+
         let y_movement = 0;
         if (!this.player.is_dead()) {
             if (input_up) y_movement--;
@@ -29,7 +31,7 @@ class Level {
                 this.player.shoot(this.projectiles, loader);
             }
         }
-        this.player.move(1, y_movement);
+        this.player.move(0, y_movement);
         draw_image(ctx, loader.get_image("ship_player_" + this.player.get_frame()), this.player.x, this.player.y);
 
         for (let i = 0; i < this.enemies.length; i++) {
@@ -39,6 +41,7 @@ class Level {
                 this.enemies[i].active = true;
             } else {
                 this.enemies[i].update_func(this.enemies[i], this);
+                this.enemies[i].x -= this.scrolling_speed * Time.delta;
                 draw_image(ctx, loader.get_image(this.enemies[i].get_graphic() + "_" + this.enemies[i].get_frame()), this.enemies[i].x, this.enemies[i].y);
                 if (this.enemies[i].get_hitbox().overlap(this.player.get_hitbox()) && this.enemies[i].get_health() > 0) {
                     this.enemies[i].take_damage(Infinity);

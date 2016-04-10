@@ -2,12 +2,14 @@ class Main {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     private loader = new ResourceLoader();
+    private scroll: number;
 
     public constructor(canvas_id: string, width: number, height: number) {
         this.canvas = <HTMLCanvasElement> document.getElementById(canvas_id);
         this.canvas.width = width;
         this.canvas.height = height;
         this.ctx = this.canvas.getContext("2d");
+        this.scroll = 0;
 
         window.onmousemove = (evt) => {
             let canvas_rect = this.canvas.getBoundingClientRect();
@@ -48,6 +50,7 @@ class Main {
         if (!this.loader.done()) {
             this.draw_loading(Time.delta);
         } else {
+            this.draw_background();
             StateManager.update_state(this.ctx, this.loader);
             ParticleManager.render(this.ctx);
         }
@@ -73,6 +76,17 @@ class Main {
             data[i + 2] = Math.min(255, Math.max(0, data[i + 2] * real_tint[2]));
         }
         this.ctx.putImageData(image_data, 0, 0);
+    }
+
+    private draw_background() {
+        this.scroll -= Time.delta * 48 * StateManager.get_scrolling_speed();
+
+        draw_image(this.ctx, this.loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 64, 32);
+        draw_image(this.ctx, this.loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 192, 32);
+        draw_image(this.ctx, this.loader.get_image("bg_mid"), Math.floor(this.scroll) % 128 + 64, 32);
+        draw_image(this.ctx, this.loader.get_image("bg_mid"), Math.floor(this.scroll) % 128 + 192, 32);
+        draw_image(this.ctx, this.loader.get_image("bg_top"), Math.floor(this.scroll * 1.7) % 128 + 64, 32);
+        draw_image(this.ctx, this.loader.get_image("bg_top"), Math.floor(this.scroll * 1.7) % 128 + 192, 32);
     }
 
     private draw_loading(delta: number) {

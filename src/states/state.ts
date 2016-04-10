@@ -21,9 +21,14 @@ class StateManager {
             StateManager.current_state.render(ctx, loader);
         }
     }
+
+    public static get_scrolling_speed(): number {
+        return StateManager.current_state !== null ? StateManager.current_state.scrolling_speed : 0;
+    }
 }
 
 interface State {
+    scrolling_speed: number;
     initialize(loader: ResourceLoader);
     render(ctx: CanvasRenderingContext2D, loader: ResourceLoader);
     destroy();

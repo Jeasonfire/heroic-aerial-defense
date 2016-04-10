@@ -1,4 +1,6 @@
 class RestartState extends GenericMenuState {
+    public scrolling_speed = 1.5;
+
     private level_num: number;
 
     public constructor(level: number) {

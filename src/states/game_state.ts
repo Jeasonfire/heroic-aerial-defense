@@ -1,8 +1,8 @@
 class GameState implements State {
+    public scrolling_speed = 1.5;
+
     private level: Level;
     private level_num: number;
-    private scroll: number;
-    private parallax_multiplier: number;
     private start_time: number;
     private dead_time: number;
 
@@ -17,23 +17,11 @@ class GameState implements State {
             this.level_num = 0;
         }
         this.level = new Level(loader, 16, LevelTemplate.LEVELS[this.level_num]);
-        this.scroll = 0;
-        this.parallax_multiplier = 4.0;
         this.start_time = Time.total_ms;
         this.dead_time = -1;
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
-        this.scroll -= Time.delta * this.level.scrolling_speed * this.parallax_multiplier;
-
-        set_translation(0, 0);
-        draw_image(ctx, loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 64, 32);
-        draw_image(ctx, loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 192, 32);
-        draw_image(ctx, loader.get_image("bg_mid"), Math.floor(this.scroll) % 128 + 64, 32);
-        draw_image(ctx, loader.get_image("bg_mid"), Math.floor(this.scroll) % 128 + 192, 32);
-        draw_image(ctx, loader.get_image("bg_top"), Math.floor(this.scroll * 1.7) % 128 + 64, 32);
-        draw_image(ctx, loader.get_image("bg_top"), Math.floor(this.scroll * 1.7) % 128 + 192, 32);
-
         draw_text(ctx, "Health: " + this.level.player.get_health(), 32, 5);
         if (Time.total_ms - this.start_time < 2000) {
             draw_text(ctx, String(this.level_num + 1), 32, 32, 2);
@@ -41,8 +29,6 @@ class GameState implements State {
         if (Time.total_ms - this.dead_time < 3000 && this.level.player.is_dead()) {
             draw_text(ctx, "You died.", 32, 50);
         }
-
-        set_translation(Math.floor(this.scroll / this.parallax_multiplier), 0);
         this.level.render(ctx, loader);
 
 

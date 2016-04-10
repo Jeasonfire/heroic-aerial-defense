@@ -22,11 +22,6 @@ class GenericMenuState implements State {
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
-        ctx.save();
-        ctx.drawImage(loader.get_image("bg_bot"), 0, 0);
-        ctx.drawImage(loader.get_image("bg_mid"), 0, 0);
-        ctx.drawImage(loader.get_image("bg_top"), 0, 0);
-
         draw_text(ctx, this.title, 32, 10, 1);
         for (let i = 0; i < this.sliders.length; i++) {
             this.render_slider(ctx, 32, this.y_offset + i * 11, this.sliders[i]);

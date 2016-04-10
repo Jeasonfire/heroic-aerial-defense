@@ -1,4 +1,6 @@
 class OptionsTintState extends GenericMenuState {
+    public scrolling_speed = 1.0;
+
     public constructor() {
         super("Color", 22, [], [
             [{name: "Red", slider_pos: (tint[0] - 1.0 / 3.0) * 3.0 / 2.0}, (slider_pos: number) => {

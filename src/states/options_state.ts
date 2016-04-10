@@ -1,4 +1,6 @@
 class OptionsState extends GenericMenuState {
+    public scrolling_speed = 1.0;
+
     public constructor() {
         super("Options", 22, [
             ["Color", () => {

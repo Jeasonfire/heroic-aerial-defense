@@ -15,10 +15,13 @@ class LevelTemplate {
         ]),
     ];
 
+    public boss: boolean;
+
     private enemy_types: [EnemyType[], number[]][];
 
-    public constructor(enemy_types: [EnemyType[], number[]][]) {
+    public constructor(enemy_types: [EnemyType[], number[]][], boss: boolean = false) {
         this.enemy_types = enemy_types;
+        this.boss = boss;
     }
 
     public generate_enemies(level: Level, loader: ResourceLoader): [Enemy[], number] {
