@@ -56,7 +56,6 @@ class Level {
                 this.projectiles.splice(i, 1);
             } else {
                 this.projectiles[i].update_func(this.projectiles[i], this);
-                this.projectiles[i].x += this.player.speed * Time.delta;
                 this.projectiles[i].check_hits(this);
                 draw_image(ctx, loader.get_image(this.projectiles[i].get_graphic()), this.projectiles[i].x, this.projectiles[i].y);
                 if (this.projectiles[i].x - this.player.x > 64) {

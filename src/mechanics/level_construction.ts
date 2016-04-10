@@ -26,16 +26,16 @@ class LevelTemplate {
 
     public generate_enemies(level: Level, loader: ResourceLoader): [Enemy[], number] {
         let enemies: Enemy[] = [];
-        let x_offset = 30;
+        let x_offset = 90;
         for (let i = 0; i < this.enemy_types.length; i++) {
             let enemy_wave = this.enemy_types[i];
-            x_offset += 20;
             for (let j = 0; j < enemy_wave[0].length; j++) {
                 for (let k = 0; k < enemy_wave[1][j]; k++) {
-                    x_offset += 20;
                     enemies.push(new Enemy(x_offset, 16 + 32 * Math.random(), enemy_wave[0][j], level, loader));
+                    x_offset += 20;
                 }
             }
+            x_offset += 20;
         }
         return [enemies, x_offset];
     }
