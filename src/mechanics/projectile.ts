@@ -19,9 +19,16 @@ class Projectile extends Entity {
             return;
         }
         for (let i = 0; i < level.enemies.length; i++) {
-            if (level.enemies[i].get_hitbox().contains(this.x, this.y)) {
+            if (!level.enemies[i].is_dead() && level.enemies[i].get_hitbox().contains(this.x, this.y)) {
                 level.enemies[i].take_damage(1);
                 ParticleManager.burst(this.x, this.y, 0.15, 6);
+                this.dead = true;
+            }
+        }
+        for (let i = 0; i < level.projectiles.length; i++) {
+            if (level.projectiles[i] !== this && !level.projectiles[i].dead && level.projectiles[i].get_hitbox().contains(this.x, this.y)) {
+                ParticleManager.burst(this.x, this.y, 0.5, 5, 100);
+                level.projectiles[i].dead = true;
                 this.dead = true;
             }
         }
@@ -45,7 +52,7 @@ class Projectile extends Entity {
         default:
         case ProjectileType.BASIC:
             return (self: Projectile, level: Level) => {
-                self.x += self.direction * 100 * Time.delta;
+                self.x += self.direction * 80 * Time.delta;
             };
         }
     }

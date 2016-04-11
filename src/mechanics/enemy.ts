@@ -62,7 +62,7 @@ class Enemy extends Entity {
             return (self: Enemy, level: Level) => {
                 if (self.data["shoot_count"] === undefined) {
                     self.data["shoot_count"] = 0;
-                    self.data["cooldown_count"] = self.shooting_rate / 2.0;
+                    self.data["cooldown_count"] = self.shooting_rate / 1.5;
                     self.data["original_shooting_rate"] = self.shooting_rate;
                     self.data["origin"] = self.y;
                     self.data["shooting"] = false;
@@ -106,9 +106,9 @@ class Enemy extends Entity {
         case EnemyType.FIGHTER:
             return 0.5;
         case EnemyType.FIGHTER_MKII:
-            return 8;
+            return 5;
         case EnemyType.FIGHTER_MKIII:
-            return 16;
+            return 15;
         }
     }
 }
