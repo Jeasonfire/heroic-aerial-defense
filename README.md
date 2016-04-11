@@ -14,11 +14,11 @@ Heroic Aerial Defense is a side-scrolling shmup. It's visually very simple, as t
 This section will describe the different gameplay mechanics seen in the game.
 
 ### Controls
-| Action         | Input  |
-|----------------|--------|
-| Movement, up   | W or ↑ |
-| Movement, down | S or ↓ |
-| Shoot          | Space  |
+| Action         | Input                   |
+|----------------|-------------------------|
+| Movement, up   | Move mouse up, W or ↑   |
+| Movement, down | Move mouse down, S or ↓ |
+| Shoot          | Click or Space          |
 
 ### Enemies
 - Imp

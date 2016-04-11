@@ -58,6 +58,7 @@ let mouse_x = 0;
 let mouse_y = 0;
 let mouse_down = false;
 let mouse_clicked = false;
+let mouse_control = false;
 
 let KEYS_UP = [87, 38];
 let KEYS_DOWN = [83, 40];

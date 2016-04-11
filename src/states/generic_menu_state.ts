@@ -1,8 +1,11 @@
 class GenericMenuState implements State {
-    private buttons: [{name: string, activation: number}, () => any][];
-    private sliders: [{name: string, slider_pos: number}, (slider_pos: number) => any][];
+    public scrolling_speed = 1.0;
+
+    protected buttons: [{name: string, activation: number}, () => any][];
+    protected sliders: [{name: string, slider_pos: number}, (slider_pos: number) => any][];
+    protected title: string;
+
     private start_time: number;
-    private title: string;
     private y_offset: number;
     private back: [{name: string, hover: boolean, activation: number}, () => any];
 
@@ -47,7 +50,7 @@ class GenericMenuState implements State {
         }
         draw_text(ctx, button[0].name, x, y);
         draw_rect(ctx, x, y + 4, text_width(ctx, button[0].name) * button[0].activation, 1);
-        if (hovering && mouse_clicked && Time.total_ms - this.start_time > 300) {
+        if (hovering && mouse_clicked) {
             button[1]();
         }
     }

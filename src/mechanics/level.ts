@@ -25,10 +25,18 @@ class Level {
 
         let y_movement = 0;
         if (!this.player.is_dead()) {
-            if (input_up) y_movement--;
-            if (input_down) y_movement++;
-            if (input_shoot) {
-                this.player.shoot(this.projectiles, loader);
+            if (mouse_control) {
+                if (mouse_y - this.player.y < -1) y_movement--;
+                if (mouse_y - this.player.y > 1) y_movement++;
+                if (mouse_down) {
+                    this.player.shoot(this.projectiles, loader);
+                }
+            } else {
+                if (input_up) y_movement--;
+                if (input_down) y_movement++;
+                if (input_shoot) {
+                    this.player.shoot(this.projectiles, loader);
+                }
             }
         }
         this.player.move(0, y_movement);
@@ -43,10 +51,14 @@ class Level {
                 this.enemies[i].update_func(this.enemies[i], this);
                 this.enemies[i].x -= this.scrolling_speed * Time.delta;
                 draw_image(ctx, loader.get_image(this.enemies[i].get_graphic() + "_" + this.enemies[i].get_frame()), this.enemies[i].x, this.enemies[i].y);
-                if (this.enemies[i].get_hitbox().overlap(this.player.get_hitbox()) && this.enemies[i].get_health() > 0) {
+                let enemy_hitbox = this.enemies[i].get_hitbox();
+                if (enemy_hitbox.overlap(this.player.get_hitbox()) && this.enemies[i].get_health() > 0) {
                     this.enemies[i].take_damage(Infinity);
                     this.player.take_damage(2);
                     ParticleManager.burst(this.enemies[i].x, this.enemies[i].y, 0.1, 30, 140);
+                }
+                if (this.enemies[i].x < -enemy_hitbox.w / 2.0) {
+                    this.enemies[i].take_damage(Infinity);
                 }
             }
         }

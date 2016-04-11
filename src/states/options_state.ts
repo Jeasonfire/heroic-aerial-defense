@@ -1,6 +1,4 @@
 class OptionsState extends GenericMenuState {
-    public scrolling_speed = 1.0;
-
     public constructor() {
         super("Options", 22, [
             ["Color", () => {
@@ -8,7 +6,10 @@ class OptionsState extends GenericMenuState {
             }],
             ["Audio", () => {
                 StateManager.change_state(new OptionsAudioState());
-            }]
+            }],
+            ["Controls", () => {
+                StateManager.change_state(new OptionsControlsState());
+            }],
         ], [], () => { StateManager.change_state(new MainMenuState()); });
     }
 }
