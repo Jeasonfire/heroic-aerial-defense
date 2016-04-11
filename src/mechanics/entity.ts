@@ -55,12 +55,13 @@ class Entity {
             if (this.last_frame_update_time === -1) {
                 this.last_frame_update_time = Time.total_ms;
             }
-            this.stats.frame += (Time.total_ms - this.last_frame_update_time) / 750.0;
-            if (this.stats.frame >= 2) {
+            this.stats.frame += (Time.total_ms - this.last_frame_update_time) / 2000.0;
+            if (this.stats.frame > 2) {
                 this.stats.dead = true;
+                this.stats.frame = 2;
             }
         }
-        return Math.min(2, Math.floor(this.stats.frame));
+        return Math.min(1, Math.floor(this.stats.frame));
     }
 
     public shoot(projectiles: Projectile[], loader: ResourceLoader): boolean {

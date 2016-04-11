@@ -45,7 +45,7 @@ class Projectile extends Entity {
         default:
         case ProjectileType.BASIC:
             return (self: Projectile, level: Level) => {
-                self.x += self.direction * 75 * Time.delta;
+                self.x += self.direction * 80 * Time.delta;
             };
         }
     }

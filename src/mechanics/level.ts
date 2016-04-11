@@ -38,6 +38,9 @@ class Level {
                     this.player.shoot(this.projectiles, loader);
                 }
             }
+            if ((y_movement < 0 && this.player.y < 0) || (y_movement > 0 && this.player.y > 64)) {
+                y_movement = 0;
+            }
         }
         this.player.move(0, y_movement);
         draw_image(ctx, loader.get_image("ship_player_" + this.player.get_frame()), this.player.x, this.player.y);
@@ -70,7 +73,7 @@ class Level {
                 this.projectiles[i].update_func(this.projectiles[i], this);
                 this.projectiles[i].check_hits(this);
                 draw_image(ctx, loader.get_image(this.projectiles[i].get_graphic()), this.projectiles[i].x, this.projectiles[i].y);
-                if (this.projectiles[i].x - this.player.x > 64) {
+                if (this.projectiles[i].x > 64 || this.projectiles[i].x < 0) {
                     this.projectiles[i].dead = true;
                 }
             }

@@ -24,6 +24,7 @@ class Main {
 
     public load_resources() {
         this.loader.load_images([
+            ["bg_stars", "./res/background_stars.png"],
             ["bg_bot", "./res/background_bot.png"],
             ["bg_mid", "./res/background_mid.png"],
             ["bg_top", "./res/background_top.png"],
@@ -31,12 +32,10 @@ class Main {
             ["ship_player", "./res/ship_player_0.png"],
             ["ship_player_0", "./res/ship_player_0.png"],
             ["ship_player_1", "./res/ship_player_1.png"],
-            ["ship_player_2", "./res/ship_player_2.png"],
 
-            ["ship_basic", "./res/ship_basic_0.png"],
-            ["ship_basic_0", "./res/ship_basic_0.png"],
-            ["ship_basic_1", "./res/ship_basic_1.png"],
-            ["ship_basic_2", "./res/ship_basic_2.png"],
+            ["ship_bomber", "./res/ship_bomber_0.png"],
+            ["ship_bomber_0", "./res/ship_bomber_0.png"],
+            ["ship_bomber_1", "./res/ship_bomber_1.png"],
 
             ["projectile_basic", "./res/projectile_basic.png"],
         ]);
@@ -81,6 +80,7 @@ class Main {
     private draw_background() {
         this.scroll -= Time.delta * 48 * StateManager.get_scrolling_speed();
 
+        draw_image(this.ctx, this.loader.get_image("bg_stars"), 32, 32);
         draw_image(this.ctx, this.loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 64, 32);
         draw_image(this.ctx, this.loader.get_image("bg_bot"), Math.floor(this.scroll / 1.4) % 128 + 192, 32);
         draw_image(this.ctx, this.loader.get_image("bg_mid"), Math.floor(this.scroll) % 128 + 64, 32);

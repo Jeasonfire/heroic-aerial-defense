@@ -1,17 +1,17 @@
 class LevelTemplate {
     public static LEVELS = [
         new LevelTemplate([
-            [[EnemyType.IMP], [3]],
+            [[EnemyType.FIGHTER_MKIII], [3]],
         ]),
         new LevelTemplate([
-            [[EnemyType.IMP], [2]],
-            [[EnemyType.IMP, EnemyType.DEMON, EnemyType.IMP], [1, 2, 1]],
-            [[EnemyType.DEMON], [8]],
+            [[EnemyType.BOMBER], [2]],
+            [[EnemyType.BOMBER, EnemyType.FIGHTER, EnemyType.BOMBER], [1, 2, 1]],
+            [[EnemyType.FIGHTER], [8]],
         ]),
         new LevelTemplate([
-            [[EnemyType.GREATER_IMP], [3]],
-            [[EnemyType.GREATER_IMP, EnemyType.GREATER_DEMON, EnemyType.GREATER_IMP], [2, 1, 1]],
-            [[EnemyType.GREATER_DEMON], [1]],
+            [[EnemyType.BOMBER_MKII], [3]],
+            [[EnemyType.BOMBER_MKII, EnemyType.FIGHTER_MKII, EnemyType.BOMBER_MKII], [2, 1, 1]],
+            [[EnemyType.FIGHTER_MKII], [1]],
         ]),
     ];
 
