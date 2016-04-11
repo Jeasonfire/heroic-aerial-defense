@@ -6,12 +6,12 @@ class Entity {
     public update_func: (self: Entity, level: Level) => any;
     public active: boolean;
 
-    protected shooting_offset: [number, number];
+    protected shooting_offsets: [number, number][];
 
     private graphic: string;
     private hitbox: Rectangle;
     private shoot_cooldown_time: number;
-    private stats: {health: number, dead: boolean, frame: number};
+    private health: number;
     private last_frame_update_time = 0;
 
     public constructor(x: number, y: number, health: number, shooting_rate: number,
@@ -26,9 +26,9 @@ class Entity {
         this.shoot_cooldown_time = 0;
         let dims = loader.get_image_dimensions(graphic);
         this.hitbox = new Rectangle(0, 0, dims[0], dims[1]);
-        this.stats = {health: health, dead: false, frame: 0};
+        this.health = health;
         this.active = true;
-        this.shooting_offset = [Math.ceil(dims[0] / 2.0), 0];
+        this.shooting_offsets = [[Math.ceil(dims[0] / 2.0), 0]];
         this.last_frame_update_time = -1;
     }
 
@@ -43,32 +43,20 @@ class Entity {
     }
 
     public get_health(): number {
-        return this.stats.health;
+        return this.health;
     }
 
     public is_dead(): boolean {
-        return this.stats.dead;
-    }
-
-    public get_frame(): number {
-        if (this.stats.health <= 0) {
-            if (this.last_frame_update_time === -1) {
-                this.last_frame_update_time = Time.total_ms;
-            }
-            this.stats.frame += (Time.total_ms - this.last_frame_update_time) / 2000.0;
-            if (this.stats.frame > 2) {
-                this.stats.dead = true;
-                this.stats.frame = 2;
-            }
-        }
-        return Math.min(1, Math.floor(this.stats.frame));
+        return this.health <= 0;
     }
 
     public shoot(projectiles: Projectile[], loader: ResourceLoader): boolean {
         if (this.shooting_rate > 0 && this.shoot_cooldown_time < Time.total_ms) {
             this.shoot_cooldown_time = Time.total_ms + 1000 / this.shooting_rate;
-            projectiles.push(new Projectile(this.x + this.shooting_offset[0] * this.projectile_direction,
-                this.y + this.shooting_offset[1], this.projectile_direction, ProjectileType.BASIC, loader));
+            for (let i = 0; i < this.shooting_offsets.length; i++) {
+                projectiles.push(new Projectile(this.x + this.shooting_offsets[i][0] * this.projectile_direction,
+                    this.y + this.shooting_offsets[i][1], this.projectile_direction, ProjectileType.BASIC, loader));
+            }
             return true;
         } else {
             return false;
@@ -77,7 +65,7 @@ class Entity {
 
     public take_damage(damage: number) {
         if (this.active) {
-            this.stats.health -= damage;
+            this.health -= damage;
         }
     }
 }

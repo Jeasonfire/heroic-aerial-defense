@@ -5,6 +5,8 @@ class Level {
     public scrolling_speed: number;
     public level_finish: number;
 
+    private player_dead: boolean;
+
     public constructor(loader: ResourceLoader, scrolling_speed: number, template: LevelTemplate) {
         this.player = new Player(8, 32, 10, 32, loader);
         this.projectiles = [];
@@ -12,6 +14,7 @@ class Level {
         this.enemies = temp[0];
         this.level_finish = template.boss ? Infinity : Time.total_ms + temp[1] / scrolling_speed * 1000.0;
         this.scrolling_speed = scrolling_speed;
+        this.player_dead = false;
     }
 
     public finished(): boolean {
@@ -41,27 +44,34 @@ class Level {
             if ((y_movement < 0 && this.player.y < 0) || (y_movement > 0 && this.player.y > 64)) {
                 y_movement = 0;
             }
+            this.player.move(0, y_movement);
+            draw_image(ctx, loader.get_image("ship_player"), this.player.x, this.player.y);
+        } else if (!this.player_dead) {
+            this.player_dead = true;
+            ParticleManager.burst(this.player.x, this.player.y, 2, 50, 20);
         }
-        this.player.move(0, y_movement);
-        draw_image(ctx, loader.get_image("ship_player_" + this.player.get_frame()), this.player.x, this.player.y);
 
         for (let i = 0; i < this.enemies.length; i++) {
+            let enemy_hitbox = this.enemies[i].get_hitbox();
             if (this.enemies[i].is_dead()) {
+                ParticleManager.burst(this.enemies[i].x, this.enemies[i].y, 0.2,
+                    5 * Enemy.get_health(this.enemies[i].type));
                 this.enemies.splice(i, 1);
-            } else if (!this.enemies[i].active && this.enemies[i].x - this.player.x < 60) {
+            } else if (!this.enemies[i].active && this.enemies[i].x - enemy_hitbox.w / 2.0 < 70) {
                 this.enemies[i].active = true;
             } else {
-                this.enemies[i].update_func(this.enemies[i], this);
                 this.enemies[i].x -= this.scrolling_speed * Time.delta;
-                draw_image(ctx, loader.get_image(this.enemies[i].get_graphic() + "_" + this.enemies[i].get_frame()), this.enemies[i].x, this.enemies[i].y);
-                let enemy_hitbox = this.enemies[i].get_hitbox();
-                if (enemy_hitbox.overlap(this.player.get_hitbox()) && this.enemies[i].get_health() > 0) {
-                    this.enemies[i].take_damage(Infinity);
-                    this.player.take_damage(2);
-                    ParticleManager.burst(this.enemies[i].x, this.enemies[i].y, 0.1, 30, 140);
-                }
-                if (this.enemies[i].x < -enemy_hitbox.w / 2.0) {
-                    this.enemies[i].take_damage(Infinity);
+                if (this.enemies[i].active) {
+                    this.enemies[i].update_func(this.enemies[i], this);
+                    draw_image(ctx, loader.get_image(this.enemies[i].get_graphic()), this.enemies[i].x, this.enemies[i].y);
+                    if (enemy_hitbox.overlap(this.player.get_hitbox()) && this.enemies[i].get_health() > 0) {
+                        this.enemies[i].take_damage(Infinity);
+                        this.player.take_damage(2);
+                        ParticleManager.burst(this.enemies[i].x, this.enemies[i].y, 0.1, 30, 140);
+                    }
+                    if (this.enemies[i].x < -enemy_hitbox.w / 2.0) {
+                        this.enemies[i].take_damage(Infinity);
+                    }
                 }
             }
         }

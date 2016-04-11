@@ -32,7 +32,7 @@ class Projectile extends Entity {
         }
     }
 
-    private static get_graphic(type: ProjectileType): string {
+    public static get_graphic(type: ProjectileType): string {
         switch (type) {
         default:
         case ProjectileType.BASIC:
@@ -40,12 +40,12 @@ class Projectile extends Entity {
         }
     }
 
-    private static get_update_func(type: ProjectileType): (self: Projectile, level: Level) => any {
+    public static get_update_func(type: ProjectileType): (self: Projectile, level: Level) => any {
         switch (type) {
         default:
         case ProjectileType.BASIC:
             return (self: Projectile, level: Level) => {
-                self.x += self.direction * 80 * Time.delta;
+                self.x += self.direction * 100 * Time.delta;
             };
         }
     }

@@ -29,13 +29,12 @@ class Main {
             ["bg_mid", "./res/background_mid.png"],
             ["bg_top", "./res/background_top.png"],
 
-            ["ship_player", "./res/ship_player_0.png"],
-            ["ship_player_0", "./res/ship_player_0.png"],
-            ["ship_player_1", "./res/ship_player_1.png"],
-
-            ["ship_bomber", "./res/ship_bomber_0.png"],
-            ["ship_bomber_0", "./res/ship_bomber_0.png"],
-            ["ship_bomber_1", "./res/ship_bomber_1.png"],
+            ["ship_player", "./res/ship_player.png"],
+            ["ship_bomber", "./res/ship_bomber.png"],
+            ["ship_bomber_mk2", "./res/ship_bomber_mk2.png"],
+            ["ship_fighter", "./res/ship_fighter.png"],
+            ["ship_fighter_mk2", "./res/ship_fighter_mk2.png"],
+            ["ship_fighter_mk3", "./res/ship_fighter_mk3.png"],
 
             ["projectile_basic", "./res/projectile_basic.png"],
         ]);

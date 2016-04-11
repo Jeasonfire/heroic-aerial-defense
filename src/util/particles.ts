@@ -40,7 +40,7 @@ class Particle {
 class ParticleManager {
     private static particles: Particle[] = [];
 
-    public static burst(x: number, y: number, lifetime: number = 1.0, count: number = 10, force: number = 100, randomness: number = 0.5, rgb: [number, number, number] = [1.0, 1.0, 1.0]) {
+    public static burst(x: number, y: number, lifetime: number = 1.0, count: number = 10, force: number = 100, randomness: number = 0.75, rgb: [number, number, number] = [1.0, 1.0, 1.0]) {
         let angle_offset = 2.0 * Math.PI * Math.random();
         for (let i = 0; i < count; i++) {
             let angle = 2.0 * Math.PI * i / count + angle_offset;

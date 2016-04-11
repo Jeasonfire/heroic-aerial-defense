@@ -7,7 +7,11 @@ class ResourceLoader {
     private loading_graphic_speed = 1;
 
     public get_image(name: string) {
-        return this.image_map[name];
+        let image = this.image_map[name];
+        if (image === undefined) {
+            console.log("Couldn't find image with name " + name + "!");
+        }
+        return image;
     }
 
     public get_image_dimensions(name: string): [number, number] {
