@@ -99,6 +99,21 @@ class Enemy extends Entity {
         }
     }
 
+    public static get_score(type: EnemyType): number {
+        switch (type) {
+        default:
+        case EnemyType.FIGHTER:
+            return 200;
+        case EnemyType.FIGHTER_MKII:
+            return 500;
+        case EnemyType.BOMBER:
+            return 300;
+        case EnemyType.BOMBER_MKII:
+        case EnemyType.FIGHTER_MKIII:
+            return 1000;
+        }
+    }
+
     public static get_shooting_rate(type: EnemyType): number {
         switch (type) {
         default:

@@ -8,6 +8,7 @@ class MainMenuState extends GenericMenuState {
                 StateManager.change_state(new OptionsState());
             }]
         ], [], null);
+        ScoreManager.score = 0;
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {

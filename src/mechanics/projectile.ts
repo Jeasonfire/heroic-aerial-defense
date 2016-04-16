@@ -22,6 +22,9 @@ class Projectile extends Entity {
             if (!level.enemies[i].is_dead() && level.enemies[i].get_hitbox().contains(this.x, this.y)) {
                 level.enemies[i].take_damage(1);
                 ParticleManager.burst(this.x, this.y, 0.15, 6);
+                if (level.enemies[i].is_dead()) {
+                    ScoreManager.add_score(level.enemies[i].type);
+                }
                 this.dead = true;
             }
         }

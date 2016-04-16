@@ -28,7 +28,8 @@ class GameState implements State {
     }
 
     public render(ctx: CanvasRenderingContext2D, loader: ResourceLoader) {
-        draw_text(ctx, "Health: " + this.level.player.get_health(), 32, 5);
+        draw_text(ctx, "HP:  " + this.level.player.get_health(), 32, 5);
+        draw_text(ctx, "Score:  " + ScoreManager.score, 32, 62);
         if (Time.total_ms - this.start_time < 2000) {
             draw_text(ctx, String(this.level_num + 1), 32, 32, 2);
         }
@@ -49,7 +50,7 @@ class GameState implements State {
             if (this.level_num + 1 < LevelTemplate.LEVELS.length) {
                 StateManager.change_state(new GameState(this.level_num + 1, [this.level.player.x, this.level.player.y]));
             } else {
-                StateManager.change_state(new MainMenuState());
+                StateManager.change_state(new WinState());
             }
         }
         if (input_reset) {

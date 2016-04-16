@@ -6,6 +6,7 @@ class Level {
     public level_finish: number;
 
     private player_dead: boolean;
+    private starting_score: number;
 
     public constructor(loader: ResourceLoader, scrolling_speed: number, template: LevelTemplate) {
         this.player = new Player(8, 32, 10, 32, loader);
@@ -15,6 +16,7 @@ class Level {
         this.level_finish = template.boss ? Infinity : Time.total_ms + temp[1] / scrolling_speed * 1000.0;
         this.scrolling_speed = scrolling_speed;
         this.player_dead = false;
+        this.starting_score = ScoreManager.score;
     }
 
     public finished(): boolean {
@@ -48,6 +50,7 @@ class Level {
             draw_image(ctx, loader.get_image("ship_player"), this.player.x, this.player.y);
         } else if (!this.player_dead) {
             this.player_dead = true;
+            ScoreManager.score = this.starting_score;
             ParticleManager.burst(this.player.x, this.player.y, 2, 50, 20);
         }
 
